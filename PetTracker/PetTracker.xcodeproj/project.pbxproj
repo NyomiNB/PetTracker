@@ -14,6 +14,8 @@
 		AF05DFF22D613046008A6032 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = AF05DFF12D613046008A6032 /* FirebaseMessaging */; };
 		AFA6D7F02D613CA60036E088 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFA6D7EF2D613CA60036E088 /* Launch Screen.storyboard */; };
 		AFA6D8DD2D6262500036E088 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6D8DC2D6262500036E088 /* ContentView.swift */; };
+		AFA6D8EC2D63CA340036E088 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AFA6D8EB2D63CA340036E088 /* FirebaseFirestore */; };
+		AFA6D8EE2D63CA8F0036E088 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = AFA6D8ED2D63CA8F0036E088 /* FirebaseCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,7 +91,9 @@
 				AF05DFEA2D613046008A6032 /* FirebaseAnalytics in Frameworks */,
 				AF05DFF22D613046008A6032 /* FirebaseMessaging in Frameworks */,
 				AF05DFF02D613046008A6032 /* FirebaseDatabase in Frameworks */,
+				AFA6D8EE2D63CA8F0036E088 /* FirebaseCore in Frameworks */,
 				AF05DFEC2D613046008A6032 /* FirebaseAuth in Frameworks */,
+				AFA6D8EC2D63CA340036E088 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +114,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AFA6D8EA2D63CA340036E088 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AFB821A62D5E1CC4000C6ECC = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +129,7 @@
 				AFB821B12D5E1CC5000C6ECC /* PetTracker */,
 				AFB821C72D5E1CCE000C6ECC /* PetTrackerTests */,
 				AFB821D12D5E1CCE000C6ECC /* PetTrackerUITests */,
+				AFA6D8EA2D63CA340036E088 /* Frameworks */,
 				AFB821B02D5E1CC5000C6ECC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -157,6 +169,8 @@
 				AF05DFED2D613046008A6032 /* FirebaseCrashlytics */,
 				AF05DFEF2D613046008A6032 /* FirebaseDatabase */,
 				AF05DFF12D613046008A6032 /* FirebaseMessaging */,
+				AFA6D8EB2D63CA340036E088 /* FirebaseFirestore */,
+				AFA6D8ED2D63CA8F0036E088 /* FirebaseCore */,
 			);
 			productName = PetTracker;
 			productReference = AFB821AF2D5E1CC5000C6ECC /* PetTracker.app */;
@@ -639,6 +653,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AF05DFCA2D6122CC008A6032 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		AFA6D8EB2D63CA340036E088 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF05DFCA2D6122CC008A6032 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		AFA6D8ED2D63CA8F0036E088 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF05DFCA2D6122CC008A6032 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
