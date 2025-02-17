@@ -11,7 +11,7 @@ import CoreData
 struct HomeView: View {
     //    @State private var activeTab: TabItem = .home
     var body: some View {
-        TabView{
+         TabView{
             Text("Home").tabItem { Text("Home")
                 Image(systemName: "house")}.tag(1)
   

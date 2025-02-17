@@ -15,27 +15,50 @@
 
 import SwiftUI
 
-struct InputView: View {
-    @Binding var text: String
-    let title: String
-    let placeholder: String
-    var isSecureField = false
+struct RegisterView: View {
+    @State private var email = ""
+    @State private var fullName = ""
+    @State private var password = ""
+    @State private var confirmPassword = ""
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: AuthViewModel
+
+    
+//    let title: String
+//    let placeholder: String
+//    var isSecureField = false
     
     var body: some View {
-        Text(title)
-            .foregroundColor(Color(.darkGray))
+        InputView(text: $email, title: "Email Address", placeholder:  "name@emailexample.com")
         
-        if isSecureField{
-            SecureField(placeholder, text: $text)
-        } else{
-            TextField(placeholder, text: $text)
+        
+        InputView(text: $fullName, title: "Full Name", placeholder:  "Please enter your first and last name")
+        
+        InputView(text: $password, title: "Password", placeholder:  "Please enter your password", isSecureField: true)
+        
+        InputView(text: $confirmPassword, title: "Password", placeholder:  "Please enter your password", isSecureField: true)
+
+        Button{
+            Task{
+            try await viewModel.createUser(withEmail: email, password: password, fullname: fullName)
+        }
+        } label:{
+        
+            Text("Create Account")
+            Image(systemName: "pawprint.fill")
+        }
+        
+        Button {
+            dismiss()
+        } label: {
+            Text("Already have an  account")
+        }
+
 
         }
-//        TextField("Email", text: $email)
-//        TextField("Password", text: $password)
-    }
+    
 }
 
 #Preview {
-    InputView(text: .constant(""), title: "Email Address", placeholder: "name@example.com")
+    RegisterView()
 }

@@ -6,14 +6,21 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct PetTrackerApp: App {
+    @StateObject var viewModel = AuthViewModel()
     let persistenceController = PersistenceController.shared
 
+    init() {
+        FirebaseApp.configure()
+    }
+ 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            ContentView()
+                .environmentObject(viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
