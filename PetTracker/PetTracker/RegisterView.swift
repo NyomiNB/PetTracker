@@ -47,7 +47,9 @@ struct RegisterView: View {
             Text("Create Account")
             Image(systemName: "pawprint.fill")
         }
-        
+        .disabled(!valid)
+        .opacity(valid ? 1.0 : 0.5)
+
         Button {
             dismiss()
         } label: {
@@ -57,6 +59,12 @@ struct RegisterView: View {
 
         }
     
+}
+
+extension RegisterView: AuthenticationFormProtocol {
+    var valid: Bool{
+        return !email.isEmpty && email.contains("@") && !password.isEmpty && password.count > 5 && confirmPassword == password && !fullName.isEmpty
+    }
 }
 
 #Preview {

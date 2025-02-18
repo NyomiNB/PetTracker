@@ -56,7 +56,8 @@ struct LoginView: View {
                 Image(systemName: "pawprint.fill")
                 
             }
-        
+            .disabled(!valid)
+            .opacity(valid ? 1.0 : 0.5)
             NavigationLink(destination: RegisterView()) {
                 Text("Sign Up")
             }
@@ -97,6 +98,11 @@ struct LoginView: View {
 //    }
 
 
+extension LoginView: AuthenticationFormProtocol {
+    var valid: Bool{
+        return !email.isEmpty && email.contains("@") && !password.isEmpty && password.count > 5
+    }
+}
 
 
 #Preview {

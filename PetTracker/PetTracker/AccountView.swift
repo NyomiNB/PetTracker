@@ -45,7 +45,9 @@ struct AccountView: View {
                     HStack{
                         Button {
                             print("j")
-                        } label: {
+
+                            viewModel.signOut()
+                         } label: {
                             
                             Label("Sign Out", systemImage: "pawprint.fill")
                             
@@ -83,7 +85,6 @@ struct AccountView: View {
 }//end of struct
 
 
-
-#Preview {
+ #Preview {
     AccountView()
 }
