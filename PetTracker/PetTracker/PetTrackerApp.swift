@@ -10,7 +10,7 @@ import Firebase
 
 @main
 struct PetTrackerApp: App {
-    @StateObject var viewModel = AuthViewModel()
+     @StateObject var authView = AuthViewModel()
     let persistenceController = PersistenceController.shared
 
     init() {
@@ -18,9 +18,9 @@ struct PetTrackerApp: App {
     }
  
     var body: some Scene {
-        WindowGroup {
+        WindowGroup { 
             ContentView()
-                .environmentObject(viewModel)
+                .environmentObject(authView)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

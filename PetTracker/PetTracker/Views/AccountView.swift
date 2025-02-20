@@ -4,15 +4,19 @@
 //
 //  Created by Nyomi Bell on 2/14/25.
 //
-
+//TODO: Add weather view
 import SwiftUI
 import PhotosUI
+import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestoreInternal
+import FirebaseDatabase
 
 struct AccountView: View {
     @State private var avatarImage: UIImage?
     @State private var photosPickerItem: PhotosPickerItem?
     @EnvironmentObject var viewModel: AuthViewModel
-    
+    //guard let image = profileImageView.image else { return }
     var body: some View {
         if let user = viewModel.currentUser {
             List{
@@ -64,8 +68,7 @@ struct AccountView: View {
                         }
                         
                     }
-                    
-                }
+                 }
             }
             //start of photosPicker
             .onChange(of: photosPickerItem) { _, _ in
@@ -82,9 +85,64 @@ struct AccountView: View {
             
         }
     }//end of if let
+    
+    //beggining of saving profile picture
+//    func saveProfile(username: String, profileImageURL: URL, completion: @escaping ((_ success: Bool)->()){
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        let databaseRef = Database.database().reference().child("users/profile/\(uid)")
+//        
+//        let userObject = [
+//            "photoURL": profileImageURL
+//        ] as [String: Any]
+//        
+//        databseRef.setValue(userObject) {error, ref in completion(error == nil)
+//            
+//        }
+//        
+//    }//end of saving pfp code
 }//end of struct
+//start of update pfp func
+//func updateProfileImage(_ image:UIImage, completion: @escaping ((_ url: String?)->())){
+//    //upload profile image
+//    self.uploadProfileImage(image) {url in
+//        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+//        changeRequest?.photoURL = url
+//        
+//        changeRequest?.commitChanges { error in
+//            if error == nil {
+//        print("photo changed")
+//                self.saveProfile(username: username, profileURL: url) { success  in
+//                    
+//                }
+//            }
+//        }
+//    }
+    //save to database
+    
+    //dismiss
+    //guard let uid = Auth.auth().currentUser?.uid else { return }
+//    let storageRef = Storage.storage().reference().child("user/\(uid)")
+//    guard let imageData = UIImageJPEGRepresentation(image, 0.75) else { return }
+//    let metaData = StorageMetaData()
+//    metaData.contentType = "image/jpg"
+//    
+//    storageRef.putData(imageData, metadata: metaData) {metaData, error in
+//        if error == nil, metaData != nil{
+//            if let url = metaData?.downloadURL()?.absoluteString{
+//                completion(url)
+//            }else{
+//                print("booo no loading")
+//
+//                completion(nil)
+//            }
+// 
+//        }
+//        print("failed loading")
+//    completion(nil)
+//    }
+//}
 
-
+ 
  #Preview {
     AccountView()
 }
