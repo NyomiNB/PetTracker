@@ -25,9 +25,14 @@ struct NewPetView: View {
                 authViewModel.addPet(name: name, notes: notes)
   //clear fields
                 
-                name=""
-                notes=""
- 
+  print("sucesss?")
+                print("Pet data \(authViewModel.getData())")
+                print("Pets \(authViewModel.pets)")
+
+                name = ""
+                notes = ""
+                authViewModel.getData()
+
             } label: {
                 Text("Save")
             }

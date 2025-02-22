@@ -8,29 +8,42 @@
 import SwiftUI
 
 struct PetView: View {
- 
+    
     @ObservedObject var authViewModel = AuthViewModel()
-    @State private var showPopup = false
+    //    @State private var showPopup = false
     init(){
         authViewModel.getData()
     }
     var body: some View {
         NavigationView{
-            List(authViewModel.pets){item in
-                Text(item.name)
+            List{
+                ForEach(authViewModel.pets){item in
+                    HStack{
+                        Text(item.name)
+                        Spacer()
+                        Button(action:{
+                            authViewModel.removePet(removePet: item)
+                            print("remove pet")
+                        }, label:{
+                            Image(systemName: "minus")
+                            
+                        })
+                    }
+                }
+                
             }
             .navigationTitle("My Pets")
             .navigationBarItems(trailing: Button(action: {
-                showPopup.toggle()
                 print("add pet")
             }, label:{
-                Image(systemName: "plus")
-                
-            }))
+                NavigationLink(destination: NewPetView()){
+                    
+                    Image(systemName: "plus")
+                    
+                }
+            }
+                                                ))
             
-            .sheet(isPresented: $showPopup){
-                NewPetView()
-             }
         }
     }
 }

@@ -66,10 +66,30 @@ class AuthViewModel: ObservableObject{
     }
     
     func deleteAccount(){
-        print("delete")
+        print("delete account")
+        
         
     }
-    
+    func removePet(removePet: Pet){
+        print("remove pet")
+        let db = Firestore.firestore()
+        db.collection("Pets").document(removePet.id).delete {error in
+            if error == nil{
+                DispatchQueue.main.async{
+                   //remove pet
+                    self.pets.removeAll{pet in
+                        //check for pet to remove
+                        return pet.id == removePet.id
+                    }
+
+                }
+             } else {
+                
+            }
+        }
+        
+    }
+
     func fetchUser() async{
         guard let uid = Auth.auth().currentUser?.uid else {return}
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else{return}

@@ -85,7 +85,7 @@ struct LoginView: View {
                         Task{
                             try await viewModel.signIn(withEmail: emailObj.usedEmail, password: passwordObj.usedPassword)
                         }
-                    }label:{
+                    } label: {
                         Text("Sign in")
                         Image(systemName: "pawprint.fill")
                         
