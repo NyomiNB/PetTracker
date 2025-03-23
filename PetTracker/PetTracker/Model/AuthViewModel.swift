@@ -4,7 +4,9 @@
 //
 //  Created by Nyomi Bell on 2/16/25.
 //
-
+//TODO: Fix password authentication
+//
+//
 import Foundation
 import FirebaseAuth
 import Firebase
@@ -21,13 +23,14 @@ class AuthViewModel: ObservableObject{
     @Published var pets = [Pet]()
     
     init(){
-        getData()
-        self.userSession = Auth.auth().currentUser
+         self.userSession = Auth.auth().currentUser
         Task {
             await fetchUser()
         }
         
     }
+    
+    //MARK: Sign In function
     func signIn(withEmail email: String, password: String) async throws{
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
@@ -38,7 +41,7 @@ class AuthViewModel: ObservableObject{
             
         }
     }
-    
+    //MARK: Create User
     func createUser(withEmail email: String, password: String, fullname: String) async throws{
         print("createAccount")
         do{
@@ -53,7 +56,8 @@ class AuthViewModel: ObservableObject{
             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
         }
     }
-    
+    //MARK: Sign Out
+
     func signOut(){
         print("sign out")
         do {
@@ -65,11 +69,13 @@ class AuthViewModel: ObservableObject{
         }
     }
     
+    //MARK: Delete Account-not functional yet
     func deleteAccount(){
         print("delete account")
         
         
     }
+    //MARK: Remove Pet
     func removePet(removePet: Pet){
         print("remove pet")
         let db = Firestore.firestore()
@@ -90,6 +96,7 @@ class AuthViewModel: ObservableObject{
         
     }
 
+    //MARK: Fetch user
     func fetchUser() async{
         guard let uid = Auth.auth().currentUser?.uid else {return}
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else{return}
@@ -97,7 +104,10 @@ class AuthViewModel: ObservableObject{
         
          print("DEBUG: Current user is \(self.currentUser)")
     }
+    //MARK: Get Data
     func getData(){
+        print("AuthView")
+
         //get ref to data
         let db = Firestore.firestore()
         //read docs
@@ -108,7 +118,7 @@ class AuthViewModel: ObservableObject{
                 
                 if let snapshot = snapshot {
                     DispatchQueue.main.async{
-                        //get all docsand create pets
+                        //get all docs and create pets
                         self.pets = snapshot.documents.map{ d in
                             //create item
                             return Pet(id: d.documentID,
@@ -116,6 +126,9 @@ class AuthViewModel: ObservableObject{
                                        notes: d["notes"] as? String ?? "")
                         }
                     }
+                }
+                for pet in self.pets{
+                    print("Pets in get data\(pet)")
                 }
             } else{
                     //error handler
@@ -148,9 +161,10 @@ class AuthViewModel: ObservableObject{
 //            
 //        }
     
-    func addPet(name: String, notes: String){
+    //MARK: Add Pet
+  func addPet(name: String, notes: String){
         //data ref
-        
+     
         //doc collection
         let db = Firestore.firestore()
         db.collection("Pets").addDocument(data: ["name": name, "notes": notes]){ error in
@@ -158,6 +172,7 @@ class AuthViewModel: ObservableObject{
             if error == nil{
                 //no errors
                 self.getData()
+ 
                 
             }else{
                 //error handler

@@ -17,6 +17,8 @@ class ViewModel: ObservableObject{
         getData()
     }
     func getData(){
+        print("getData View")
+
         let db = Firestore.firestore()
         let ref = db.collection("Pets")
         ref.getDocuments{snapshot, error in

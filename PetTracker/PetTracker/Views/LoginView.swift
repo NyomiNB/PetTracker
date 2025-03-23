@@ -1,34 +1,9 @@
-//
-//  LoginView.swift
+//MOST UPDATED SENIOR PROJECT
+
 //  PetTracker
 //
 //  Created by Nyomi Bell on 2/14/25.
 //
-
-//import SwiftUI
-//import FirebaseCore
-//
-//class AppDelegate: NSObject, UIApplicationDelegate {
-//  func application(_ application: UIApplication,
-//                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//    FirebaseApp.configure()
-//    return true
-//  }
-//}
-//
-//@main
-//struct YourApp: App {
-//  // register app delegate for Firebase setup
-//  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-//
-//  var body: some Scene {
-//    WindowGroup {
-//      NavigationView {
-//        ContentView()
-//      }
-//    }
-//  }
-//}
 import SwiftUI
 import Firebase
 
@@ -44,7 +19,7 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     var measurements: CGFloat = 130
     var body: some View {
-         NavigationStack {
+          NavigationStack {
  
             ZStack{
                 Circle().fill(.blue.opacity(0.1))
@@ -52,7 +27,7 @@ struct LoginView: View {
                 Circle().fill(.blue.opacity(0.1)).frame(width: measurements, height: measurements).position(x: 340, y: 140)
                 Circle().fill(.blue.opacity(0.1)).frame(width: measurements, height: measurements).position(x: 210, y: 100)//middle
 // x- 0 left
-                //y- 0 up
+//y- 0 up
                 VStack{
                     Text("Welcome")
                         .font(.largeTitle)

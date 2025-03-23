@@ -24,7 +24,7 @@ struct RegisterView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject var emailOb = EmailValidationObj()
     @ObservedObject var passwordOb = PasswordValidationObj()
-
+ 
 
     
 //    let title: String
@@ -34,7 +34,6 @@ struct RegisterView: View {
         ZStack{
             VStack{
                      Text("Create")
-
                          .font(.largeTitle)
                         .bold()
                     Text("PetTrack")
@@ -42,16 +41,16 @@ struct RegisterView: View {
                     Text("Account")
                         .font(.largeTitle)
                         .bold()
-                    InputView(text: $emailOb.email, title: "Email Address", placeholder:  "name@emailexample.com")
+ 
+                InputView(text: $emailOb.email, title: "Email Address", placeholder:  "name@emailexample.com")
                     .padding()
-                    .frame(width: 300, height: 50)
+                    .frame(width: 300, height: 20)
                     .background(.blue.opacity(0.1))
                     .cornerRadius(20.0)
                 
                 Text(emailOb.error).foregroundColor(.red)
                 
-                
-                InputView(text: $fullName, title: "Full Name", placeholder:  "Please enter your first and last name")
+                 InputView(text: $fullName, title: "Full Name", placeholder:  "Enter your first and last name")
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(.blue.opacity(0.1))
@@ -80,7 +79,6 @@ struct RegisterView: View {
                         } else{
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(Color(.systemRed))
-                            
                         }
                     }
                 }
@@ -168,8 +166,7 @@ class PasswordValidationObj: ObservableObject {
           setPassError = false
 
       }
-        print("mmmm")
-        self.error = ""
+         self.error = ""
 
         }
           }
@@ -256,8 +253,6 @@ extension String{
         return NSPredicate(format: "SELF MATCHES %@", digitRegex).evaluate(with: self)
 
     }
-
-
 }
 
 //extension RegisterView: AuthenticationFormProtocol {

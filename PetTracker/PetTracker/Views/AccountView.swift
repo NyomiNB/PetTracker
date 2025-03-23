@@ -18,7 +18,7 @@ struct AccountView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     //guard let image = profileImageView.image else { return }
     var body: some View {
-        if let user = viewModel.currentUser {
+    if let user = viewModel.currentUser {
             List{
                 
                 Section{
@@ -69,7 +69,7 @@ struct AccountView: View {
                         
                     }
                  }
-            }
+           }
             //start of photosPicker
             .onChange(of: photosPickerItem) { _, _ in
                 Task{ if let photosPickerItem,
