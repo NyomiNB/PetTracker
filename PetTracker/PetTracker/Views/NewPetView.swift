@@ -9,38 +9,39 @@ import SwiftUI
 
 struct NewPetView: View {
     @ObservedObject var authViewModel = AuthViewModel()
-//    @State private var newPet = ""
+    //    @State private var newPet = ""
     @State var name = ""
     @State var notes = ""
     init(){
         authViewModel.getData()
     }
     var body: some View {
-        VStack{
-            TextField("New Pet", text: $name)
-            TextField("Notes", text: $notes)
-
-            Button{
-                //add pet
-                authViewModel.addPet(name: name, notes: notes)
-  //clear fields
+        NavigationView{
+            Form{
+                Section(header: Text("Your Pet")){
+                    TextField("Pet Name", text: $name)
+                    TextField("Notes", text: $notes)
+                }
                 
-  print("sucesss?")
+            }
+            .navigationBarItems(trailing: Button(action: {
+                print("sucesss?")
                 print("Pet data \(authViewModel.getData())")
                 print("Pets \(authViewModel.pets)")
-
-                name = ""
-                notes = ""
+                  authViewModel.addPet(name: name, notes: notes)
                 authViewModel.getData()
-
-            } label: {
+            }, label:{
                 Text("Save")
-            }
+            }))
+            .navigationBarItems(leading: Button(action: {
+                print("Cancel")
+            }, label:{
+                Text("Cancel")
+            }))
+             
         }
-        .padding()
     }
 }
-
 #Preview {
     NewPetView()
 }

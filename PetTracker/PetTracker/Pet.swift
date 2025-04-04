@@ -6,9 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
+// Pet(id: "d", name: "String", notes: "note")
 
+ 
 struct Pet: Identifiable{
-    var id: String
-    var name: String
-    var notes: String
-}
+    
+var id: String
+let name: String
+let notes: String
+  }
+let pets = [Pet]()

@@ -4,28 +4,59 @@
 //
 //  Created by Nyomi Bell on 2/13/25.
 //
+//TODO: Show upcoming reminders
+//TODO:
+ 
 
 import SwiftUI
 import CoreData
 
 struct HomeView: View {
+    @ObservedObject var authViewModel = AuthViewModel()
+    //    @State private var showPopup = false
+    init(){
+        authViewModel.getData()
+    }
+    
     //    @State private var activeTab: TabItem = .home
     var body: some View {
-          TabView{
-            Text("Home").tabItem { Text("Home")
-                Image(systemName: "house")}.tag(1)
-  
-            PetView()
-                .tabItem{
-                    Image(systemName: "pawprint.fill")
-                    Text("My Pets")
+        
+        // MARK: TabView
+        NavigationView{
+            List(authViewModel.reminders){reminder in
+                NavigationLink(destination: ReminderDetail(reminder:reminder)){
+                    ReminderRow(reminder: reminder)
+                        .swipeActions{
+                            Button ("Delete"){
+                                authViewModel.removeReminder(removeReminder: reminder)
+                            }
+                            .tint(.red)
+                        }
                 }
-            AccountView()
-                .tabItem{
-                     Image(systemName: "person.crop.circle.fill")
-                    Text("My Account")
-                    
-                }
+            }
+        }
+        .onAppear(){
+            self.authViewModel.getData()
+        }
+        .navigationBarItems(trailing: Button(action: {
+            print("add reminder")
+        }, label:{
+            NavigationLink(destination: NewPetView()){
+                Image(systemName: "plus")
+            }
+        }
+                                            ))
+    }
+    
+    
+    struct ReminderRow: View{
+        let reminder: Reminder
+        var body: some View {
+            
+            HStack{
+                Text(reminder.name)
+                // Text(pet.notes)
+            }
         }
     }
 }

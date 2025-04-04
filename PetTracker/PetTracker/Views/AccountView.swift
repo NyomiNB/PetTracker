@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestoreInternal
 import FirebaseDatabase
-
+import Firebase
 struct AccountView: View {
     @State private var avatarImage: UIImage?
     @State private var photosPickerItem: PhotosPickerItem?
@@ -84,8 +84,16 @@ struct AccountView: View {
             }//end of photosPicker
             
         }
-    }//end of if let
-    
+     }//end of if let
+    func saveImage(data: Data){
+        Task{
+            //let (path, name) = try await FileManager.shared.saveImage(data: data)
+           // print(path)
+          //  print(name)
+            
+        }
+    }
+
     //beggining of saving profile picture
 //    func saveProfile(username: String, profileImageURL: URL, completion: @escaping ((_ success: Bool)->()){
 //        guard let uid = Auth.auth().currentUser?.uid else { return }

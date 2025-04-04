@@ -16,32 +16,32 @@
 import SwiftUI
 
 struct RegisterView: View {
-//    @State private var email = ""
+    //    @State private var email = ""
     @State private var fullName = ""
-        // @State private var password = ""
+    // @State private var password = ""
     @State private var confirmPassword = ""
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject var emailOb = EmailValidationObj()
     @ObservedObject var passwordOb = PasswordValidationObj()
- 
-
     
-//    let title: String
-//    let placeholder: String
-//    var isSecureField = false
+    
+    
+    //    let title: String
+    //    let placeholder: String
+    //    var isSecureField = false
     var body: some View {
         ZStack{
             VStack{
-                     Text("Create")
-                         .font(.largeTitle)
-                        .bold()
-                    Text("PetTrack")
-                        .font(.largeTitle)
-                    Text("Account")
-                        .font(.largeTitle)
-                        .bold()
- 
+                Text("Create")
+                    .font(.largeTitle)
+                    .bold()
+                Text("PetTrack")
+                    .font(.largeTitle)
+                Text("Account")
+                    .font(.largeTitle)
+                    .bold()
+                
                 InputView(text: $emailOb.email, title: "Email Address", placeholder:  "name@emailexample.com")
                     .padding()
                     .frame(width: 300, height: 20)
@@ -50,7 +50,7 @@ struct RegisterView: View {
                 
                 Text(emailOb.error).foregroundColor(.red)
                 
-                 InputView(text: $fullName, title: "Full Name", placeholder:  "Enter your first and last name")
+                InputView(text: $fullName, title: "Full Name", placeholder:  "Enter your first and last name")
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(.blue.opacity(0.1))
@@ -62,17 +62,17 @@ struct RegisterView: View {
                     .frame(width: 300, height: 50)
                     .background(.blue.opacity(0.1))
                     .cornerRadius(20.0)
-            
+                
                 InputView(text: $confirmPassword, title: "Confirm Password", placeholder:  "Please confirm your password", isSecureField: true)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(.blue.opacity(0.1))
                     .cornerRadius(20.0)
-
+                
                 Text(passwordOb.error).foregroundColor(.red)
                 ZStack(alignment: .trailing){
                     
-                     if !passwordOb.password.isEmpty && !confirmPassword.isEmpty{
+                    if !passwordOb.password.isEmpty && !confirmPassword.isEmpty{
                         if passwordOb.password == confirmPassword {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(Color(.systemGreen))
@@ -87,29 +87,37 @@ struct RegisterView: View {
         Button{
             Task{
                 try await viewModel.createUser(withEmail: emailOb.email, password: passwordOb.password, fullname: fullName)
-        }
+            }
         } label:{
-        
+            
             Text("Create Account")
             
             Image(systemName: "pawprint.fill")
         }
-//        .disabled(!valid)
-//        .opacity(valid ? 1.0 : 0.5)
-
-        Button {
-            dismiss()
-        } label: {
-            HStack{
-                Text("Already have an account?")
-                Text("Sign In")
-                    .bold()
- }
+        Button{
+            Task{
+                try await viewModel.resetPassword(email: emailOb.email)
+            }
+        } label:{
+            
+            Text("reset")
+            
+            //        .disabled(!valid)
+            //        .opacity(valid ? 1.0 : 0.5)
+            
+            Button {
+                dismiss()
+            } label: {
+                HStack{
+                    Text("Already have an account?")
+                    Text("Sign In")
+                        .bold()
+                }
+            }
+            
+            
         }
-
-
-        }
-    
+    }
 }
 class EmailValidationObj: ObservableObject {
     @Published var email = "" {

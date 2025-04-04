@@ -8,51 +8,70 @@
 import SwiftUI
 
 struct PetView: View {
-    
+    // Pet(id: "d", name: "String", notes: "note")
+
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
     init(){
         authViewModel.getData()
     }
     var body: some View {
- 
         NavigationView{
-            List{
-                ForEach(authViewModel.pets){item in
-                    HStack{
-                         Text(item.name)
-                        Spacer()
-                        Button(action:{
-                            authViewModel.removePet(removePet: item)
-                            print("remove pet")
-                        }, label:{
-                            Image(systemName: "minus")
-                            
-                        })
-                    }
+            List(authViewModel.pets){pet in
+                NavigationLink(destination: PetDetail(pet:pet)){
+                    PetRow(pet: pet)
+                        .swipeActions{
+                            Button ("Delete"){
+                                authViewModel.removePet(removePet: pet)
+                            }
+                            .tint(.red)
+                        }
                 }
-                
             }
-            .navigationTitle("My Pets")
-           //necessary for pets to appear live
+             
             .onAppear(){
-                self.authViewModel.getData()
-            }
-            .navigationBarItems(trailing: Button(action: {
-                print("add pet")
-            }, label:{
-                NavigationLink(destination: NewPetView()){
-                    
-                    Image(systemName: "plus")
-                    
-                }
-            }
-                                                ))
+                           self.authViewModel.getData()
+                       }
+                       .navigationBarItems(trailing: Button(action: {
+                           print("add pet")
+                       }, label:{
+                           NavigationLink(destination: NewPetView()){
+                               Image(systemName: "plus")
+                           }
+                       }
+                                 ))
+                       
+                   }
+               }
+                                             
+    //necessary for pets to appear live
+//        .onAppear(){
+//            self.authViewModel.getData()
+//        }
+    //            .navigationBarItems(trailing: Button(action: {
+    //                print("add pet")
+    //            }, label:{
+    //                NavigationLink(destination: NewPetView()){
+    //
+    //                    Image(systemName: "plus")
+    //
+    //                }
+    //            }
+    //   ))
+        
+
+    
+    struct PetRow: View{
+        let pet: Pet
+        var body: some View {
             
+            HStack{
+                Text(pet.name)
+               // Text(pet.notes)
+            }
+            }
         }
     }
-}
-
 #Preview {
     PetView()
 }

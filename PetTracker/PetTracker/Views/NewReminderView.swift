@@ -15,7 +15,7 @@
 
 import SwiftUI
 
-struct NewReminder: View {
+struct NewReminderView: View {
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var newPet = ""
     @State var name = ""

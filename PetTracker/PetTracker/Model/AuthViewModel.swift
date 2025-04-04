@@ -21,7 +21,8 @@ class AuthViewModel: ObservableObject{
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     @Published var pets = [Pet]()
-    
+    @Published var reminders = [Reminder]()
+
     init(){
          self.userSession = Auth.auth().currentUser
         Task {
@@ -68,11 +69,42 @@ class AuthViewModel: ObservableObject{
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
     }
-    
-    //MARK: Delete Account-not functional yet
-    func deleteAccount(){
-        print("delete account")
+    func updateData(updatePet: Pet, name: String, notes: String) {
+        //reference to database
+        let db = Firestore.firestore()
         
+        //get data to update
+        db.collection("Pets").document(updatePet.id).setData(["name": name, "notes": notes], merge: true){error in
+            if error == nil {
+                self.getData()
+            }
+        }
+    }
+    //TODO: REMINDER FUNC
+    func updateReminder(reminderUpdate: Reminder, name: String, notes: String) {
+        //reference to database
+        let db = Firestore.firestore()
+        
+        //get data to update
+        db.collection("Pets").document(reminderUpdate.id).setData(["name": name, "notes": notes], merge: true){error in
+            if error == nil {
+                self.getData()
+            }
+        }
+    }
+
+     //MARK: Delete Account-not functional yet
+    func deleteAccount() {
+//        do{
+//            try await User.delete()
+//            print("delete account")
+//     
+//        }
+//        catch{
+//            print(error.localizedDescription)
+//
+//            return false
+//        }
         
     }
     //MARK: Remove Pet
@@ -95,6 +127,27 @@ class AuthViewModel: ObservableObject{
         }
         
     }
+    
+    func removeReminder(removeReminder: Reminder){
+        print("remove reminder")
+        let db = Firestore.firestore()
+        db.collection("Reminders").document(removeReminder.id).delete {error in
+            if error == nil{
+                DispatchQueue.main.async{
+                   //remove pet
+                    self.reminders.removeAll{pet in
+                        //check for pet to remove
+                        return pet.id == removeReminder.id
+                    }
+
+                }
+             } else {
+                
+            }
+        }
+        
+    }
+
 
     //MARK: Fetch user
     func fetchUser() async{
@@ -111,7 +164,35 @@ class AuthViewModel: ObservableObject{
         //get ref to data
         let db = Firestore.firestore()
         //read docs
-        db.collection("Pets").getDocuments{snapshot, error in
+        db.collection("Reminders")
+            .whereField("ownerID", isEqualTo: currentUser?.id).getDocuments{snapshot, error in
+            //check for errors
+            if error == nil{
+                //no errors
+                
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async{
+                        //get all docs and create pets
+                        self.reminders = snapshot.documents.map{ d in
+                            //create item
+                            return Reminder(id: d.documentID,
+                                       name: d["name"] as? String ?? "",
+                                       date: d["date"] as? String ?? "", time: d["time"] as? String ?? "", priority: d["priority"] as? String ?? "", notes: d["notes"] as? String ?? "")
+                        }
+                    }
+                }
+                for reminder in self.reminders{
+                    print("Reminders in get data\(reminder)")
+                }
+            } else{
+                    //error handler
+                print("DEBUG: Current pet is \(self.reminders)")
+
+                }
+            }
+//PRVENTS USERS FROM SEEING ALL PETS-ONLY DATA THAT MATCHES UID WILL SHOW ON UI
+        db.collection("Pets")
+            .whereField("ownerID", isEqualTo: currentUser?.id).getDocuments{snapshot, error in
             //check for errors
             if error == nil{
                 //no errors
@@ -136,7 +217,7 @@ class AuthViewModel: ObservableObject{
 
                 }
             }
-                    }
+      }
                      
     
 //        let ref = db.collection("Pets")
@@ -162,29 +243,46 @@ class AuthViewModel: ObservableObject{
 //        }
     
     //MARK: Add Pet
-  func addPet(name: String, notes: String){
+    func addPet(name: String, notes: String){
         //data ref
-     
+        
         //doc collection
         let db = Firestore.firestore()
-        db.collection("Pets").addDocument(data: ["name": name, "notes": notes]){ error in
-        //check for error
+        db.collection("Pets").addDocument(data: ["name": name, "notes": notes, "ownerID": currentUser?.id]){ error in
+            //check for error
             if error == nil{
                 //no errors
                 self.getData()
- 
                 
             }else{
                 //error handler
                 print("error add")
             }
-                
+            
         }
-//        let ref = db.collection("Pets").document(breed)
-//        ref.setData(["breed": breed, "id": 10]) { error in
-//            if let error = error{
-//                print(error.localizedDescription)
-//}
-  //      }
     }
-}
+    //MARK: Add Reminder
+    func addReminder(name: String, date: String, time: String, priority: String, notes: String){
+        //data ref
+        
+        //doc collection
+        let db = Firestore.firestore()
+        db.collection("Reminders").addDocument(data: ["name": name, "date": date, "time": time, "priority": priority, "notes": notes, "authorID": currentUser?.id]){ error in
+            //check for error
+            if error == nil{
+                //no errors
+                self.getData()
+                
+            }else{
+                //error handler
+                print("error add")
+            }
+            
+        }
+    }
+
+      // reset password
+      func resetPassword(email: String)async throws{
+          try await Auth.auth().sendPasswordReset(withEmail: email)
+      }
+ }
