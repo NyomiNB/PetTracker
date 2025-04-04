@@ -275,7 +275,7 @@ class AuthViewModel: ObservableObject{
                 
             }else{
                 //error handler
-                print("error add")
+                print("error add remind")
             }
             
         }

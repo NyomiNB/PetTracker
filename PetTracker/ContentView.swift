@@ -7,18 +7,21 @@
  import SwiftUI
 
 struct ContentView: View {
+  @State var selectedTab = 0
     @EnvironmentObject var viewModel: AuthViewModel
     var body: some View {
         Group {
             if viewModel.userSession == nil{
                 LoginView()
-            }     else {
+            }     else if viewModel.userSession != nil{
                 
-                TabView{
+                TabView(selection: $selectedTab){
                     HomeView()
-                    Image(systemName: "house")
-                    Text("Home")
-
+                        .tabItem{
+                            Image(systemName: "house")
+                            Text("Home")
+                        }
+                        .tag(0)
 //                    Text("Home").tabItem { Text("Home")
 //                        Image(systemName: "house")}.tag(1)
                     
@@ -27,12 +30,16 @@ struct ContentView: View {
                             Image(systemName: "pawprint.fill")
                             Text("My Pets")
                         }
+                        .tag(1)
+
                     AccountView()
                         .tabItem{
                             Image(systemName: "person.crop.circle.fill")
                             Text("My Account")
                             
                         }
+                        .tag(2)
+
                     
                 }
             }
