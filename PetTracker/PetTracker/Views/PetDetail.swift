@@ -4,7 +4,9 @@
 //
 //  Created by Nyomi Bell on 3/26/25.
 //
-//TODO: Improve UI--allow user to edit current pet
+//--allow user to edit current pet-completed
+//TODO: Add alerts to ensure user wants to delete reminder
+//TODO: Improve aesthetics-choose cohesive theme
 import SwiftUI
 
 struct PetDetail: View {
