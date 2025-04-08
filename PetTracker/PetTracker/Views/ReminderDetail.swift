@@ -13,6 +13,9 @@ struct ReminderDetail: View {
 
     @State var name = ""
     @State var notes = ""
+    @State var date = ""
+    let dateFormatter = DateFormatter()
+    @State var chosenDate = Date()
 
     //    @State private var showPopup = false
     @ObservedObject var authViewModel = AuthViewModel()
@@ -25,10 +28,16 @@ struct ReminderDetail: View {
                 Section(header: Text("Name")){
                     TextField(reminder.name, text: $name).foregroundColor(.black)
                     TextField(reminder.notes, text: $notes).foregroundColor(.black)
- 
+                    DatePicker(
+                        "Date",
+                        selection: $chosenDate,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .datePickerStyle(.graphical)
+
                     Button(action: {
                         print("SAVED")
-                        authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes)
+                        authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
                      }, label:{
                         Text("Save")
                     })
@@ -37,13 +46,16 @@ struct ReminderDetail: View {
             }
             .disabled(isEditing)
             .navigationBarItems(trailing:
-                                    Button(action:{
+                      Button(action:{
+                dateFormatter.dateStyle = .medium
+ 
                 check()
   print(isEditing)
             }, label: {
                     Image(systemName: image)
                 }
                                           ))
+ 
             
         }
  
