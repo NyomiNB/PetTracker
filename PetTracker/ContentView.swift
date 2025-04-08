@@ -13,7 +13,7 @@ struct ContentView: View {
         Group {
             if viewModel.userSession == nil{
                 LoginView()
-            }     else {
+            }     else if viewModel.userSession != nil{
                 
                 TabView(selection: $selectedTab){
                     HomeView()

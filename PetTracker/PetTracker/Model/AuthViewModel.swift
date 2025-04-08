@@ -81,15 +81,16 @@ class AuthViewModel: ObservableObject{
         }
     }
     //TODO: REMINDER FUNC
-    func updateReminder(reminderUpdate: Reminder, name: String, notes: String) {
+    func updateReminder(reminderUpdate: Reminder, name: String, notes: String, date: String) {
         //reference to database
         let db = Firestore.firestore()
         
         //get data to update
-        db.collection("Pets").document(reminderUpdate.id).setData(["name": name, "notes": notes], merge: true){error in
+        db.collection("Reminders").document(reminderUpdate.id).setData(["name": name,"notes": notes, "date": date], merge: true)
+       /* db.collection("Reminders").document(reminderUpdate.id).setData(["name": name, "date": date, "time": time, "priority": priority,"notes": notes], merge: true)*/{error in
             if error == nil {
                 self.getData()
-            }
+             }
         }
     }
 
@@ -165,7 +166,7 @@ class AuthViewModel: ObservableObject{
         let db = Firestore.firestore()
         //read docs
         db.collection("Reminders")
-            .whereField("ownerID", isEqualTo: currentUser?.id).getDocuments{snapshot, error in
+            .whereField("authorID", isEqualTo: currentUser?.id).getDocuments{snapshot, error in
             //check for errors
             if error == nil{
                 //no errors
@@ -275,7 +276,7 @@ class AuthViewModel: ObservableObject{
                 
             }else{
                 //error handler
-                print("error add")
+                print("error add remind")
             }
             
         }

@@ -20,7 +20,9 @@ struct HomeView: View {
     
     //    @State private var activeTab: TabItem = .home
     var body: some View {
-         // MARK: TabView
+        
+        // MARK: NavigationView
+        
         NavigationView{
             List(authViewModel.reminders){reminder in
                 NavigationLink(destination: ReminderDetail(reminder:reminder)){
@@ -40,7 +42,7 @@ struct HomeView: View {
             .navigationBarItems(trailing: Button(action: {
                 print("add reminder")
             }, label:{
-                NavigationLink(destination: NewPetView()){
+                NavigationLink(destination: NewReminderView()){
                     Image(systemName: "plus")
                 }
             }

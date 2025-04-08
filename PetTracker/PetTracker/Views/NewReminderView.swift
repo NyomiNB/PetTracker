@@ -20,7 +20,11 @@ struct NewReminderView: View {
     //    @State private var newPet = ""
     @State var name = ""
     @State var notes = ""
-    init(){
+    @State var date = ""
+    @State var chosenDate = Date()
+    let dateFormatter = DateFormatter()
+
+                          init(){
         authViewModel.getData()
     }
     var body: some View {
@@ -29,15 +33,23 @@ struct NewReminderView: View {
                 Section(header: Text("New Reminder")){
                     TextField("Reminder", text: $name)
                     TextField("Notes", text: $notes)
+                     DatePicker(
+                        "Date",
+                        selection: $chosenDate,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .datePickerStyle(.graphical)
+
                 }
                 
             }
+ 
             .navigationBarItems(trailing: Button(action: {
-                print("sucesss!!!")
+                dateFormatter.dateStyle = .medium
+ print("sucesss!!!")
                 print("Reminder data \(authViewModel.getData())")
                 print("Reminders \(authViewModel.reminders)")
-                authViewModel.addReminder(name: name, date: "today"
-                                          , time: "5:45PM", priority: "high", notes: notes)
+                authViewModel.addReminder(name: name, date: dateFormatter.string(from: chosenDate), time: "5:45PM", priority: "high", notes: notes)
                 authViewModel.getData()
             }, label:{
                 Text("Save")
