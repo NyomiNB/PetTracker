@@ -10,10 +10,12 @@ import SwiftUI
 // Pet(id: "d", name: "String", notes: "note")
 
  
-struct Pet: Identifiable{
+struct Activities: Identifiable{
     
 var id: String
 let name: String
+let date: String
+let time: String
 let notes: String
-  }
-let pets = [Pet]()
+   }
+let activities = [Activities]()
