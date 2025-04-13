@@ -7,6 +7,8 @@
  import SwiftUI
 
 struct ReminderDetail: View {
+    //@Binding var rootActive: Bool
+
     @State private var isEditing = false
     @State private var trailText = "Edit"
     @State private var image = "pencil"
@@ -79,5 +81,5 @@ struct ReminderDetail: View {
 
     }
 #Preview {
-    ReminderDetail(reminder: reminders[0])
+    ReminderDetail( reminder: reminders[0])
 }

@@ -56,7 +56,7 @@ struct HomeView: View {
             
             HStack{
                 Text(reminder.name)
-                // Text(pet.notes)
+                Text(reminder.date)
             }
         }
     }
