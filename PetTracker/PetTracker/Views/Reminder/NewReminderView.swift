@@ -16,6 +16,7 @@
 import SwiftUI
 
 struct NewReminderView: View {
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var newPet = ""
     @State var name = ""
@@ -53,10 +54,10 @@ struct NewReminderView: View {
                 authViewModel.getData()
             }, label:{
                 Text("Save")
-            }))
+             }))
             .navigationBarItems(leading: Button(action: {
                 print("Cancel")
-            }, label:{
+             }, label:{
                 Text("Cancel")
             }))
              

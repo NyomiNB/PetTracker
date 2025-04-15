@@ -4,12 +4,9 @@
 //
 //  Created by Nyomi Bell on 3/26/25.
 //
-//--allow user to edit current pet-completed
-//TODO: Add alerts to ensure user wants to delete reminder
-//TODO: Improve aesthetics-choose cohesive theme
-import SwiftUI
+ import SwiftUI
 
-struct DeedDetail: View {
+struct ReminderDetail: View {
     @State private var isEditing = false
     @State private var trailText = "Edit"
     @State private var image = "pencil"
@@ -17,23 +14,30 @@ struct DeedDetail: View {
     @State var name = ""
     @State var notes = ""
     @State var date = ""
-    @State var time = ""
+    let dateFormatter = DateFormatter()
+    @State var chosenDate = Date()
 
     //    @State private var showPopup = false
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
-      let deed: Deed
+      let reminder: Reminder
     var body: some View {
  
         NavigationStack{
             Form{
-                Section(content: Text("Name")){
-                    TextField(deed.name, text: $name).foregroundColor(.black)
-                    TextField(deed.notes, text: $notes).foregroundColor(.black)
- 
+                Section(header: Text("Name")){
+                    TextField(reminder.name, text: $name).foregroundColor(.black)
+                    TextField(reminder.notes, text: $notes).foregroundColor(.black)
+                    DatePicker(
+                        "Date",
+                        selection: $chosenDate,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .datePickerStyle(.graphical)
+
                     Button(action: {
                         print("SAVED")
-                        authViewModel.updateDeed(updateDeed: Deed, name: name, date: date, time: time, notes: notes)
+                        authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
                      }, label:{
                         Text("Save")
                     })
@@ -42,13 +46,16 @@ struct DeedDetail: View {
             }
             .disabled(isEditing)
             .navigationBarItems(trailing:
-                                    Button(action:{
+                      Button(action:{
+                dateFormatter.dateStyle = .medium
+ 
                 check()
   print(isEditing)
             }, label: {
                     Image(systemName: image)
                 }
                                           ))
+ 
             
         }
  
@@ -72,5 +79,5 @@ struct DeedDetail: View {
 
     }
 #Preview {
-    DeedDetail(deed: deeds[0])
+    ReminderDetail(reminder: reminders[0])
 }

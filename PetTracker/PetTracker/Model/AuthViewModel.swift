@@ -3,7 +3,6 @@
 //  PetTracker
 //
 //  Created by Nyomi Bell on 2/16/25.
-//
 //TODO: Fix password authentication
 //
 //
@@ -22,7 +21,7 @@ class AuthViewModel: ObservableObject{
     @Published var currentUser: User?
     @Published var pets = [Pet]()
     @Published var reminders = [Reminder]()
-
+    @Published var deeds = [Deed]()
     init(){
          self.userSession = Auth.auth().currentUser
         Task {
@@ -80,6 +79,21 @@ class AuthViewModel: ObservableObject{
             }
         }
     }
+    //MARK: Update eed
+    //    func addDeed(name: String, date: String, time: String, notes: String){
+
+    func updateDeed(updateDeed: Deed, name: String, date: String, time: String, notes: String) {
+        //reference to database
+        let db = Firestore.firestore()
+        
+        //get data to update
+        db.collection("Deeds").document(updateDeed.id).setData(["name": name, "date": date, "time": time, "notes": notes], merge: true){error in
+            if error == nil {
+                self.getData()
+            }
+        }
+    }
+
     //TODO: REMINDER FUNC
     func updateReminder(reminderUpdate: Reminder, name: String, notes: String, date: String) {
         //reference to database
@@ -99,7 +113,7 @@ class AuthViewModel: ObservableObject{
 //        do{
 //            try await User.delete()
 //            print("delete account")
-//     
+//
 //        }
 //        catch{
 //            print(error.localizedDescription)
@@ -149,7 +163,25 @@ class AuthViewModel: ObservableObject{
         
     }
 
+    func removeDeed(removeDeed: Deed){
+        print("remove deed")
+        let db = Firestore.firestore()
+        db.collection("Deeds").document(removeDeed.id).delete {error in
+            if error == nil{
+                DispatchQueue.main.async{
+                   //remove pet
+                    self.deeds.removeAll{deed in
+                        //check for pet to remove
+                        return deed.id == removeDeed.id
+                    }
 
+                }
+             } else {
+                
+            }
+        }
+        
+    }
     //MARK: Fetch user
     func fetchUser() async{
         guard let uid = Auth.auth().currentUser?.uid else {return}
@@ -165,6 +197,34 @@ class AuthViewModel: ObservableObject{
         //get ref to data
         let db = Firestore.firestore()
         //read docs
+        //MARK: DEEDS
+        db.collection("Deeds")
+            .whereField("authorID", isEqualTo: currentUser?.id).getDocuments{snapshot, error in
+            //check for errors
+            if error == nil{
+                //no errors
+                
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async{
+                        //get all docs and create pets
+                        self.deeds = snapshot.documents.map{ d in
+                            //create item
+                            return Deed(id: d.documentID,
+                                       name: d["name"] as? String ?? "",
+                                       date: d["date"] as? String ?? "", time: d["time"] as? String ?? "",  notes: d["notes"] as? String ?? "")
+                        }
+                    }
+                }
+                for deed in self.deeds{
+                    print("Deeds in get data\(deed)")
+                }
+            } else{
+                    //error handler
+                print("DEBUG: Current deed is \(self.deeds)")
+
+                }
+            }
+        //MARK: REMINDERS
         db.collection("Reminders")
             .whereField("authorID", isEqualTo: currentUser?.id).getDocuments{snapshot, error in
             //check for errors
@@ -220,29 +280,7 @@ class AuthViewModel: ObservableObject{
             }
       }
                      
-    
-//        let ref = db.collection("Pets")
-//        ref.getDocuments{snapshot, error in
-//            guard error == nil else {
-//                print(error!.localizedDescription)
-//                return
-//            }
-//            if let snapshot = snapshot{
-//                for document in snapshot.documents{
-//                    let data = document.data()
-//                    
-//                    let id = data["id"] as? String ?? ""
-//                    let name = data["name"] as? String ?? ""
-//                    let notes = data["notes"] as? String ?? ""
-//                    
-//                    let pet = Pet(id: id, name: name, notes: notes)
-//                    self.pets.append(pet)
-//                    
-//                }
-//            }
-//            
-//        }
-    
+   
     //MARK: Add Pet
     func addPet(name: String, notes: String){
         //data ref
@@ -277,6 +315,25 @@ class AuthViewModel: ObservableObject{
             }else{
                 //error handler
                 print("error add remind")
+            }
+            
+        }
+    }
+    //MARK: Add Deed
+    func addDeed(name: String, date: String, time: String, notes: String){
+        //data ref
+        
+        //doc collection
+        let db = Firestore.firestore()
+        db.collection("Deeds").addDocument(data: ["name": name, "date": date, "time": time, "notes": notes, "authorID": currentUser?.id]){ error in
+            //check for error
+            if error == nil{
+                //no errors
+                self.getData()
+                
+            }else{
+                //error handler
+                print("error add deed")
             }
             
         }
