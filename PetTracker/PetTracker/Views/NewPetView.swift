@@ -38,7 +38,8 @@ struct NewPetView: View {
             }, label:{
                 Text("Cancel")
             }))
-             
+            .navigationBarBackButtonHidden(true)
+
         }
     }
 }

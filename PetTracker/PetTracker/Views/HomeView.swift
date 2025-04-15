@@ -38,6 +38,7 @@ struct HomeView: View {
             .onAppear(){
                 self.authViewModel.getData()
             }
+            .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Button(action: {
                 print("add reminder")
             }, label:{

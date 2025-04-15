@@ -18,9 +18,11 @@ struct ContentView: View {
                 TabView(selection: $selectedTab){
                     HomeView()
                         .tabItem{
+                            
                             Image(systemName: "house")
                             Text("Home")
                         }
+                    
                         .tag(0)
 //                    Text("Home").tabItem { Text("Home")
 //                        Image(systemName: "house")}.tag(1)
