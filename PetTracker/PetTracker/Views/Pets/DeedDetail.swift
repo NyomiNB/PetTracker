@@ -9,30 +9,32 @@
 //TODO: Improve aesthetics-choose cohesive theme
 import SwiftUI
 
-struct PetDetail: View {
+struct DeedDetail: View {
     @State private var isEditing = false
     @State private var trailText = "Edit"
     @State private var image = "pencil"
 
     @State var name = ""
     @State var notes = ""
+    @State var date = ""
+    @State var time = ""
 
     //    @State private var showPopup = false
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
-      let pet: Pet
+      let deed: Deed
     var body: some View {
  
         NavigationStack{
             Form{
-                Section(header: Text("Name")){
-                    TextField(pet.name, text: $name).foregroundColor(.black)
-                    TextField(pet.notes, text: $notes).foregroundColor(.black)
+                Section(content: Text("Name")){
+                    TextField(deed.name, text: $name).foregroundColor(.black)
+                    TextField(deed.notes, text: $notes).foregroundColor(.black)
  
                     Button(action: {
                         print("SAVED")
-                        authViewModel.updateData(updatePet: pet, name: name, notes: notes) 
-                    }, label:{
+                        authViewModel.updateDeed(updateDeed: Deed, name: name, date: date, time: time, notes: notes)
+                     }, label:{
                         Text("Save")
                     })
                  }
@@ -70,5 +72,5 @@ struct PetDetail: View {
 
     }
 #Preview {
-    PetDetail(pet: pets[0])
+    DeedDetail(deed: deeds[0])
 }
