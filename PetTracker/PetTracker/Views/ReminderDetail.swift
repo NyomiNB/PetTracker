@@ -7,7 +7,7 @@
  import SwiftUI
 
 struct ReminderDetail: View {
-    @State private var isEditing = false
+    @State private var isEditing = true
     @State private var trailText = "Edit"
     @State private var image = "pencil"
 
@@ -16,8 +16,7 @@ struct ReminderDetail: View {
     @State var date = ""
     let dateFormatter = DateFormatter()
     @State var chosenDate = Date()
-
-    //    @State private var showPopup = false
+     //    @State private var showPopup = false
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
       let reminder: Reminder
@@ -35,12 +34,12 @@ struct ReminderDetail: View {
                     )
                     .datePickerStyle(.graphical)
 
-                    Button(action: {
-                        print("SAVED")
-                        authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
-                     }, label:{
-                        Text("Save")
-                    })
+//                    Button(action: {
+//                        print("SAVED")
+//                        authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
+//                     }, label:{
+//                        Text("Save")
+//                    })
                  }
                 
             }
@@ -48,9 +47,8 @@ struct ReminderDetail: View {
             .navigationBarItems(trailing:
                       Button(action:{
                 dateFormatter.dateStyle = .medium
- 
-                check()
-  print(isEditing)
+check()
+print(isEditing)
             }, label: {
                     Image(systemName: image)
                 }
@@ -62,17 +60,19 @@ struct ReminderDetail: View {
      }
     func check(){
         if isEditing{
+            trailText = "Done"
+                       image = "checkmark"
+                       print(image)
+                       print(trailText)
+            authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
+            isEditing = !isEditing
+
+        } else if !isEditing{
             trailText = "Edit"
             image = "pencil"
             print(image)
             print(trailText)
-
-        } else if !isEditing{
-            trailText = "Done"
-            image = "checkmark"
-            print(image)
-            print(trailText)
-
+ isEditing = !isEditing
         }
 
     }

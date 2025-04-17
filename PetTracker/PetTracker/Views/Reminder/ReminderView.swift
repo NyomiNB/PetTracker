@@ -45,6 +45,8 @@ struct ReminderView: View {
             
             HStack{
                 Text(reminder.name)
+                Text(reminder.date)
+
             }
         }
     }

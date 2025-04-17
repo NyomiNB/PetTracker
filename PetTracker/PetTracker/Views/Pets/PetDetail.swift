@@ -3,7 +3,7 @@
 //  PetTracker
 //
 //  Created by Nyomi Bell on 3/26/25.
-//
+//edit pet
 //--allow user to edit current pet-completed
 //TODO: Add alerts to ensure user wants to delete reminder
 //TODO: Improve aesthetics-choose cohesive theme
@@ -20,7 +20,7 @@ struct PetDetail: View {
     //    @State private var showPopup = false
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
-      let pet: Pet
+    let pet: Pet
     var body: some View {
  
         NavigationStack{
@@ -29,12 +29,12 @@ struct PetDetail: View {
                     TextField(pet.name, text: $name).foregroundColor(.black)
                     TextField(pet.notes, text: $notes).foregroundColor(.black)
  
-                    Button(action: {
-                        print("SAVED")
-                        authViewModel.updateData(updatePet: pet, name: name, notes: notes) 
-                    }, label:{
-                        Text("Save")
-                    })
+//                    Button(action: {
+//                        print("SAVED")
+//                        authViewModel.updateData(updatePet: pet, name: name, notes: notes)
+//                    }, label:{
+//                        Text("Save")
+//                    })
                  }
                 
             }
@@ -53,17 +53,22 @@ struct PetDetail: View {
      }
     func check(){
         if isEditing{
-            trailText = "Edit"
-            image = "pencil"
-            print(image)
-            print(trailText)
-
-        } else if !isEditing{
             trailText = "Done"
             image = "checkmark"
             print(image)
             print(trailText)
 
+                           authViewModel.updateData(updatePet: pet, name: name, notes: notes)
+            isEditing = !isEditing
+
+
+        } else if !isEditing{
+            trailText = "Edit"
+            image = "pencil"
+            print(image)
+            print(trailText)
+
+ 
         }
 
     }
