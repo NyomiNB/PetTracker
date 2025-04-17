@@ -51,7 +51,7 @@ check()
 print(isEditing)
             }, label: {
                     Image(systemName: image)
-                }
+                 }
                                           ))
  
             
@@ -64,10 +64,11 @@ print(isEditing)
                        image = "checkmark"
                        print(image)
                        print(trailText)
-            authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
-            isEditing = !isEditing
+             isEditing = !isEditing
 
         } else if !isEditing{
+            authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
+
             trailText = "Edit"
             image = "pencil"
             print(image)
