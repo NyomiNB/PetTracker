@@ -25,8 +25,8 @@ struct ReminderDetail: View {
         NavigationStack{
             Form{
                 Section(header: Text("Name")){
-                    TextField(reminder.name, text: $name).foregroundColor(.black)
-                    TextField(reminder.notes, text: $notes).foregroundColor(.black)
+                    TextField("", text: $name, prompt: Text(reminder.name).foregroundColor(.black))
+                    TextField("", text: $notes, prompt: Text(reminder.notes).foregroundColor(.black))
                     DatePicker(
                         "Date",
                         selection: $chosenDate,

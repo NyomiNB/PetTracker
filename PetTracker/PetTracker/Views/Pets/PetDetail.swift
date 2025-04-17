@@ -26,9 +26,9 @@ struct PetDetail: View {
         NavigationStack{
             Form{
                 Section(header: Text("Name")){
-                    TextField(pet.name, text: $name).foregroundColor(.black)
-                    TextField(pet.notes, text: $notes).foregroundColor(.black)
- 
+                    TextField("", text: $name, prompt: Text(pet.name).foregroundColor(.black))
+                    TextField("", text: $notes, prompt: Text(pet.notes).foregroundColor(.black))
+
 //                    Button(action: {
 //                        print("SAVED")
 //                        authViewModel.updateData(updatePet: pet, name: name, notes: notes)
