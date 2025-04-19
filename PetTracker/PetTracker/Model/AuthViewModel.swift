@@ -68,12 +68,12 @@ class AuthViewModel: ObservableObject{
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
     }
-    func updateData(updatePet: Pet, name: String, notes: String) {
+    func updateData(updatePet: Pet, name: String, age: Int, weight: Double, notes: String, image:String) {
         //reference to database
         let db = Firestore.firestore()
         
         //get data to update
-        db.collection("Pets").document(updatePet.id).setData(["name": name, "notes": notes], merge: true){error in
+        db.collection("Pets").document(updatePet.id).setData(["name": name, "age":age, "weight":weight, "notes": notes, "image": image], merge: true){error in
             if error == nil {
                 self.getData()
             }
@@ -82,12 +82,12 @@ class AuthViewModel: ObservableObject{
     //MARK: Update eed
     //    func addDeed(name: String, date: String, time: String, notes: String){
 
-    func updateDeed(updateDeed: Deed, name: String, date: String, time: String, notes: String) {
+    func updateDeed(updateDeed: Deed, pet: String, name: String, date: String, time: String, notes: String) {
         //reference to database
         let db = Firestore.firestore()
         
         //get data to update
-        db.collection("Deeds").document(updateDeed.id).setData(["name": name, "date": date, "time": time, "notes": notes], merge: true){error in
+        db.collection("Deeds").document(updateDeed.id).setData(["pet": pet, "name": name, "date": date, "time": time, "notes": notes], merge: true){error in
             if error == nil {
                 self.getData()
             }
@@ -210,8 +210,8 @@ class AuthViewModel: ObservableObject{
                         self.deeds = snapshot.documents.map{ d in
                             //create item
                             return Deed(id: d.documentID,
-                                       name: d["name"] as? String ?? "",
-                                       date: d["date"] as? String ?? "", time: d["time"] as? String ?? "",  notes: d["notes"] as? String ?? "")
+                                        name: d["name"] as? String ?? "", date: d["pet"] as? String ?? "",
+                                        time: d["date"] as? String ?? "", pet: d["time"] as? String ?? "",  notes: d["notes"] as? String ?? "")
                         }
                     }
                 }
@@ -264,8 +264,8 @@ class AuthViewModel: ObservableObject{
                         self.pets = snapshot.documents.map{ d in
                             //create item
                             return Pet(id: d.documentID,
-                                       name: d["name"] as? String ?? "",
-                                       notes: d["notes"] as? String ?? "")
+                                       name: d["name"] as? String ?? "",  age: d["age"] as? Int ?? 0,  weight: d["weight"] as? Double ?? 0.0,
+                                       notes: d["notes"] as? String ?? "", image: d["image"] as? String ?? "")
                         }
                     }
                 }
@@ -282,12 +282,12 @@ class AuthViewModel: ObservableObject{
                      
    
     //MARK: Add Pet
-    func addPet(name: String, notes: String){
+    func addPet(name: String, age: Int, weight: Double, notes: String){
         //data ref
         
         //doc collection
         let db = Firestore.firestore()
-        db.collection("Pets").addDocument(data: ["name": name, "notes": notes, "ownerID": currentUser?.id]){ error in
+        db.collection("Pets").addDocument(data: ["name": name, "age": age, "weight": weight, "notes": notes, "image": "catPlaceholder", "ownerID": currentUser?.id]){ error in
             //check for error
             if error == nil{
                 //no errors
@@ -320,12 +320,12 @@ class AuthViewModel: ObservableObject{
         }
     }
     //MARK: Add Deed
-    func addDeed(name: String, date: String, time: String, notes: String){
+    func addDeed(name: String, pet: String, date: String, time: String, notes: String){
         //data ref
         
         //doc collection
         let db = Firestore.firestore()
-        db.collection("Deeds").addDocument(data: ["name": name, "date": date, "time": time, "notes": notes, "authorID": currentUser?.id]){ error in
+        db.collection("Deeds").addDocument(data: ["name": name, "pet": pet, "date": date, "time": time, "notes": notes, "authorID": currentUser?.id]){ error in
             //check for error
             if error == nil{
                 //no errors

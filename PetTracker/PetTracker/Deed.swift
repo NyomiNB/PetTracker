@@ -16,6 +16,8 @@ var id: String
 let name: String
 let date: String
 let time: String
+    let pet: String
+
 let notes: String
    }
 let deeds = [Deed]()

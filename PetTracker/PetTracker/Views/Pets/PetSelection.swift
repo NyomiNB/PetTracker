@@ -9,7 +9,31 @@ import SwiftUI
 
 struct PetSelection: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.vertical){
+            LazyVStack(spacing: 15){
+                CarouselView()
+            }
+        }
+    }
+    @ViewBuilder
+    func CarouselView() -> some View{
+        let spaceInt: CGFloat = 10
+        
+        ScrollView(.horizontal){
+            HStack(spacing: spaceInt){
+                ForEach(images){
+                    model in Image(model.image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                         .clipShape(.circle)
+                         .frame(height: 380)
+
+                }
+            }
+        }
+        .frame(height: 380)
+        .scrollIndicators(.hidden)
+        .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
     }
 }
 

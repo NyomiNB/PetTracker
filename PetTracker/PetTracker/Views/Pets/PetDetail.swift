@@ -12,10 +12,13 @@ import SwiftUI
 struct PetDetail: View {
     @State private var isEditing = false
     @State private var trailText = "Edit"
-    @State private var image = "pencil"
+    @State private var trailImage = "pencil"
 
     @State var name = ""
     @State var notes = ""
+    @State var age = 0
+    @State var weight = 0.0
+    @State var image = "catPlaceholder"
 
     //    @State private var showPopup = false
     @ObservedObject var authViewModel = AuthViewModel()
@@ -44,7 +47,7 @@ struct PetDetail: View {
                 check()
   print(isEditing)
             }, label: {
-                    Image(systemName: image)
+                    Image(systemName: trailImage)
                 }
                                           ))
             
@@ -55,17 +58,17 @@ struct PetDetail: View {
         if isEditing{
             trailText = "Done"
             image = "checkmark"
-            print(image)
+            print(trailImage)
             print(trailText)
 
-                           authViewModel.updateData(updatePet: pet, name: name, notes: notes)
+            authViewModel.updateData(updatePet: pet, name: name, age: age, weight: weight, notes: notes, image: image)
             isEditing = !isEditing
 
 
         } else if !isEditing{
             trailText = "Edit"
             image = "pencil"
-            print(image)
+            print(trailImage)
             print(trailText)
 
  

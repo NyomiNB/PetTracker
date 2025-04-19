@@ -13,8 +13,9 @@ struct ReminderView: View {
         
         // MARK: NavigationView
         
+
         NavigationView{
-            List(authViewModel.reminders){reminder in
+             List(authViewModel.reminders){reminder in
                 NavigationLink(destination: ReminderDetail(reminder:reminder)){
                     ReminderRow(reminder: reminder)
                         .swipeActions{

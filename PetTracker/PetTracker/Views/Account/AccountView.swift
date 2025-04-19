@@ -12,14 +12,20 @@ import FirebaseCore
 import FirebaseFirestoreInternal
 import FirebaseDatabase
 import Firebase
+import FirebaseFirestore
+ 
 struct AccountView: View {
     @State private var avatarImage: UIImage?
     @State private var photosPickerItem: PhotosPickerItem?
     @EnvironmentObject var viewModel: AuthViewModel
+ 
     //guard let image = profileImageView.image else { return }
     var body: some View {
+//        let storage = Storage.storage()
+
     if let user = viewModel.currentUser {
-            List{
+       // let storageRef = Storage.storage().reference()
+  List{
                 
                 Section{
                     HStack{
@@ -76,6 +82,7 @@ struct AccountView: View {
                          let data = try? await photosPickerItem.loadTransferable(type: Data.self) {
                     if let image = UIImage(data: data) {
                         avatarImage = image
+                       // uploadPhoto()
                     }
                     
                 }
@@ -85,13 +92,12 @@ struct AccountView: View {
             
         }
      }//end of if let
-    func saveImage(data: Data){
-        Task{
-            //let (path, name) = try await FileManager.shared.saveImage(data: data)
+    func uploadPhoto(data: Data){
+             //let (path, name) = try await FileManager.shared.saveImage(data: data)
            // print(path)
           //  print(name)
             
-        }
+        
     }
 
     //beggining of saving profile picture

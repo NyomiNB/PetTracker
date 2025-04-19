@@ -19,6 +19,8 @@ import SwiftUI
     @State var name = ""
     @State var notes = ""
     @State var date = ""
+     @State var pet = ""
+
     @State var time = ""
      let dateFormatter = DateFormatter()
      @State var chosenDate = Date()
@@ -44,7 +46,7 @@ import SwiftUI
 
                 Button(action: {
                     print("SAVED")
-                    authViewModel.updateDeed(updateDeed: deed, name: name, date: dateFormatter.string(from: Date.now), time: time, notes: notes)
+                    authViewModel.updateDeed(updateDeed: deed, pet: pet, name: name,   date: dateFormatter.string(from: Date.now), time: time, notes: notes)
                  }, label:{
                     Text("Save")
                 })

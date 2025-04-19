@@ -21,26 +21,30 @@ struct ReminderDetail: View {
     //    @State private var showPopup = false
       let reminder: Reminder
     var body: some View {
- 
-        NavigationStack{
+         NavigationStack{
             Form{
                 Section(header: Text("Name")){
                     TextField("", text: $name, prompt: Text(reminder.name).foregroundColor(.black))
+                }
+                Section(header: Text("Notes")){
+                    
                     TextField("", text: $notes, prompt: Text(reminder.notes).foregroundColor(.black))
+                }
+                Section(header: Text("Date")){ 
                     DatePicker(
                         "Date",
                         selection: $chosenDate,
                         displayedComponents: [.date, .hourAndMinute]
                     )
-                    .datePickerStyle(.graphical)
-
+                    .datePickerStyle(.compact)
+                }
 //                    Button(action: {
 //                        print("SAVED")
 //                        authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
 //                     }, label:{
 //                        Text("Save")
 //                    })
-                 }
+                 
                 
             }
             .disabled(isEditing)
@@ -51,6 +55,7 @@ check()
 print(isEditing)
             }, label: {
                     Image(systemName: image)
+                Text(trailText)
                  }
                                           ))
  

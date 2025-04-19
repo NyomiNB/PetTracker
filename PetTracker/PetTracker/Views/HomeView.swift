@@ -22,17 +22,26 @@ struct HomeView: View {
     var body: some View {
         
         // MARK: NavigationView
-        
+       
+
         NavigationView{
-            List(authViewModel.reminders){reminder in
-                NavigationLink(destination: ReminderDetail(reminder:reminder)){
-                    ReminderRow(reminder: reminder)
-                        .swipeActions{
-                            Button ("Delete"){
-                                authViewModel.removeReminder(removeReminder: reminder)
+            VStack{
+                HStack{
+                    Text("My Reminders")
+                        .font(.largeTitle)
+                        .bold()
+                    Image(systemName: "pawprint.fill")
+                }
+                List(authViewModel.reminders){reminder in
+                    NavigationLink(destination: ReminderDetail(reminder:reminder)){
+                        ReminderRow(reminder: reminder)
+                            .swipeActions{
+                                Button ("Delete"){
+                                    authViewModel.removeReminder(removeReminder: reminder)
+                                }
+                                .tint(.red)
                             }
-                            .tint(.red)
-                        }
+                    }
                 }
             }
             .onAppear(){
@@ -47,6 +56,8 @@ struct HomeView: View {
                 }
             }
                                                 ))
+            .padding(.bottom, 4)
+
         }
     }
     
