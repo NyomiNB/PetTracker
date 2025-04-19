@@ -4,7 +4,7 @@
 //
 //  Created by Nyomi Bell on 2/19/25.
 //
-
+//TODO: Add search bar to search for pets
 import SwiftUI
 
 struct PetView: View {
@@ -28,43 +28,49 @@ struct PetView: View {
     @ViewBuilder
     func CarouselView() -> some View{
         let spaceInt: CGFloat = 10
-
+        
         NavigationView{
-            HStack{
-                Text("My Pets")
-                    .font(.largeTitle)
-                    .bold()
-                Image(systemName: "pawprint.fill")
-            }
-            ScrollView(.horizontal){
-//                LazyVStack(spacing: 15){
-                HStack(spacing: spaceInt){
- 
-                    ForEach(authViewModel.pets){pet in
-                        NavigationLink(destination: PetDetail(pet:pet)){
-                            Image(pet.image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                             .clipShape(.circle)
-                             .frame(height: 380)
-
-                             //PetRow(pet: pet)
-                         }
-                        .swipeActions{
-                            Button ("Delete"){
-                                authViewModel.removePet(removePet: pet)
+            VStack{
+                
+                HStack{
+                    Text("My Pets")
+                        .font(.largeTitle)
+                        .bold()
+                    Image(systemName: "pawprint.fill")
+                }
+                ScrollView(.horizontal){
+                    //                LazyVStack(spacing: 15){
+                    HStack(spacing: spaceInt){
+                        
+                        ForEach(authViewModel.pets){pet in
+                            NavigationLink(destination: PetDetail(pet:pet)){
+                                Image(pet.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(.circle)
+                                    .frame(height: 380)
+                                    .clip
+                                    .overlay{
+OverlayView(pet)
+                                    }
+                                //PetRow(pet: pet)
                             }
-                            .tint(.red)
+                            .swipeActions{
+                                Button ("Delete"){
+                                    authViewModel.removePet(removePet: pet)
+                                }
+                                .tint(.red)
+                            }
                         }
                     }
                 }
-            }
-            .frame(height: 380)
-            .scrollIndicators(.hidden)
-            .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
-
-            .onAppear(){
-                self.authViewModel.getData()
+                .frame(height: 380)
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+                
+                .onAppear(){
+                    self.authViewModel.getData()
+                }
             }
             .navigationBarItems(trailing: Button(action: {
                 print("add pet")
@@ -73,9 +79,19 @@ struct PetView: View {
                     Image(systemName: "plus")
                 }
             }
-                                                ))
+                                            ))
         }
     }
+}
+@ViewBuilder
+func OverlayView(_ pet: Pet) -> some View{
+    VStack(alignment: .leading, spacing: 4, content: {
+        Text(pet.name)
+            .font(.title2)
+            .fontWeight(.black)
+            .foregroundStyle(.black)
+    })
+    .padding(20)
 }
        // }
 
