@@ -54,22 +54,17 @@ struct PetView: View {
                                     .frame(height: 380)
                                     .scrollTransition{content, phase in content
                                             .opacity(phase.isIdentity ? 1.0: 0.2)
-                                            .scaleEffect(x: phase.isIdentity ? 1.0 : 0.3)
-                                               //          y: phase.isIdentity ? 1.0 : 0.3  )
-                                           // .offset( y: phase.isIdentity ? 0 : 50)
+                                            .scaleEffect(x: phase.isIdentity ? 1.0 : 0.3, y: phase.isIdentity ? 1.0 : 0.3  )
+                                        .offset( y: phase.isIdentity ? 0 : 50)
                                     }
  
-//                                    .overlay(alignment: .bottom, content:                                         OverlayView(pet)
+                                    .overlay(alignment: .bottom){
+                                        OverlayView(pet)
+                                    }
 //)
-                                      //PetRow(pet: pet)
-                                }
+                                 }
                             }
-//                            .swipeActions{
-//                                Button ("Delete"){
-//                                    authViewModel.removePet(removePet: pet)
-//                                }
-//                                .tint(.red)
-//                            }
+//
                         }
                     }
                 }
@@ -98,14 +93,9 @@ struct PetView: View {
 func OverlayView(_ pet: Pet) -> some View{
     //HStack(alignment: .bottom, spacing: 30, content: {
         Text(pet.name)
-        .font(.subheadline)
-        Spacer()
-        Spacer()
-        Spacer()
-
- 
-    //})
- //   .padding([.leading, .bottom], 2)
+        .font(.title2)
+        .bold()
+    //   .padding([.leading, .bottom], 2)
 }
    
             
