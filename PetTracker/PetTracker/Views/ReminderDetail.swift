@@ -66,14 +66,15 @@ print(isEditing)
     func check(){
         if isEditing{
             trailText = "Done"
-                       image = "checkmark"
+                       image = "checkmark.circle"
                        print(image)
                        print(trailText)
              isEditing = !isEditing
 
         } else if !isEditing{
-            authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
-
+            if name != "" {
+                authViewModel.updateReminder(reminderUpdate: reminder, name: name, notes: notes, date: dateFormatter.string(from: chosenDate))
+            }
             trailText = "Edit"
             image = "pencil"
             print(image)

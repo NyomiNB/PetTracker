@@ -16,9 +16,10 @@ struct PetDetail: View {
     let pet: Pet
  @State private var isEditing = false
     @State private var trailText = "Edit"
-    @State private var trailImage = "pencil"
+    @State private var trailImage = "pencil.circle"
     @State private var message = ""
     @State private var title =   ""
+    @State private var clicked = false
 
     @State private var save = false
 
@@ -57,8 +58,6 @@ struct PetDetail: View {
             check()
         }
  
-            .navigationTitle(title)
- 
             .navigationBarItems(trailing:
                                     Button(action:{
                 check()
@@ -69,37 +68,60 @@ struct PetDetail: View {
 
             }
                                           ))
-
+            .navigationTitle(title)
+ 
        
 
         }
     func initialize(){
-             title = ("\(pet.name)'s Profile")
-     }
+        if name == ""{
+            title = ("\(pet.name)'s Profile")
+            
+        } else {
+            title = ("\(name)'s Profile")
+        }
+    }
         func check(){
             
             if isEditing{
-                print(pet.name)
-                print(name)
+                print("Pet NAme\(pet.name)")
+                      print("Name\(name)")
 
                 trailText = "Done"
-                trailImage = "checkmark"
+                trailImage = "checkmark.circle"
                 print(trailImage)
                 print(trailText)
-                title = ("Edit \(pet.name)'s Profile")
- 
-                isEditing = !isEditing
                 
+                if name == ""{
+                    title = ("Edit \(pet.name)'s Profile")
+
+                } else {
+                     title = ("Edit \(name)'s Profile")
+              }
+
+                isEditing = !isEditing
+                message =  ""
                 
             } else if !isEditing{
-                print(pet.name)
-                print(name)
+                print("Pet NAme\(pet.name)")
+                      print("Name\(name)")
+                if pet.name != name{
+                    message =   "Changes saved"
+                }
+                if name != ""{
+                    
+                    authViewModel.updateData(updatePet: pet, name: name, age: age, weight: weight, notes: notes, image: image)
+                 }
+                if name == ""{
+                    title = ("\(pet.name)'s Profile")
 
-                title = ("\(pet.name)'s Profile")
-                      authViewModel.updateData(updatePet: pet, name: name, age: age, weight: weight, notes: notes, image: image)
+                } else {
+                     title = ("\(name)'s Profile")
+              }
+
  
                  trailText = "Edit"
-                trailImage = "pencil"
+                trailImage = "pencil.circle"
                 message = ""
                 print(trailImage)
                 print(trailText)
