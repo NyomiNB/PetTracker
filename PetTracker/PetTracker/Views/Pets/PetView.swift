@@ -47,7 +47,7 @@ struct PetView: View {
                             NavigationLink(destination: PetDetail(pet:pet)){
                                 Image(pet.image)
                                     .resizable()
-//                                    .aspectRatio(contentMode: .fill)
+                                //                                    .aspectRatio(contentMode: .fill)
                                     .clipShape(.circle)
                                     .overlay(Circle().stroke(Color.green))
                                     .containerRelativeFrame(.horizontal, count: verticalSizeClass == .regular ? 1 : 4, spacing: 16)
@@ -55,17 +55,16 @@ struct PetView: View {
                                     .scrollTransition{content, phase in content
                                             .opacity(phase.isIdentity ? 1.0: 0.2)
                                             .scaleEffect(x: phase.isIdentity ? 1.0 : 0.3, y: phase.isIdentity ? 1.0 : 0.3  )
-                                        .offset( y: phase.isIdentity ? 0 : 50)
+                                            .offset( y: phase.isIdentity ? 0 : 50)
                                     }
- 
+                                
                                     .overlay(alignment: .bottom){
                                         OverlayView(pet)
                                     }
-//)
-                                 }
+                                //)
                             }
-//
                         }
+                        //
                     }
                 }
                 .scrollTargetLayout()
@@ -73,20 +72,21 @@ struct PetView: View {
                 .scrollIndicators(.hidden)
                 .contentMargins(16, for: .scrollContent)
                 .scrollTargetBehavior(.viewAligned)
-                
+            }
                 .onAppear(){
                     self.authViewModel.getData()
                 }
-            }
-            .navigationBarItems(trailing: Button(action: {
-                print("add pet")
-            }, label:{
-                NavigationLink(destination: NewPetView()){
-                    Image(systemName: "plus")
+                .navigationBarItems(trailing: Button(action: {
+                    print("add pet")
+                }, label:{
+                    NavigationLink(destination: NewPetView()){
+                        Image(systemName: "plus")
+                    }
                 }
+                                                ))
+
             }
-                                            ))
-        }
+                     }
     }
 
 @ViewBuilder
