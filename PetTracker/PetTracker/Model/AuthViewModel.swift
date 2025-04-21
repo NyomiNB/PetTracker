@@ -111,7 +111,7 @@ class AuthViewModel: ObservableObject{
      //MARK: Delete Account-not functional yet
     func deleteAccount() {
 //        do{
-//            try await User.delete()
+//            try await viewModel.delete()
 //            print("delete account")
 //
 //        }

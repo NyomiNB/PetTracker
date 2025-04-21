@@ -8,6 +8,8 @@
 //TODO: Add alerts to ensure user wants to delete reminder
 //TODO: Improve aesthetics-choose cohesive theme
 //TODO: dont allow user to leave textfield blank
+//TODO: Add messages to user
+//TODO: calc age based on birthday
 
 import SwiftUI
 
@@ -32,6 +34,30 @@ struct PetDetail: View {
       var body: some View {
  
         NavigationStack{
+            HStack{
+                Image(pet.image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 100, height: 100)
+                    .clipped()
+                    .cornerRadius(50)
+             }
+            VStack(alignment: .leading){
+                if name != "" {
+                    Text(name)
+                        .font(.title2)
+                        .bold()
+
+                } else {
+                    Text(pet.name)
+                        .font(.title2)
+                        .bold()
+
+                }
+            
+             }
+
+
              Form{
  
                  Section(header: Text("Name")){
@@ -41,17 +67,18 @@ struct PetDetail: View {
                     
                     TextField("", text: $notes, prompt: Text(pet.notes).foregroundColor(.black))
                 }
-                Text(message)
-                    .font(.subheadline)
-                    .foregroundColor(.green)
-                Button(action: {
-                    print("Deleted")
-                    authViewModel.removePet(removePet: pet)
-                }, label:{
-                    Text("Remove Pet")
-                })
-            }
+             }
              .disabled(isEditing)
+            Text(message)
+             .font(.subheadline)
+             .foregroundColor(.green)
+         Button(action: {
+             print("Deleted")
+             authViewModel.removePet(removePet: pet)
+         }, label:{
+             Text("Remove Pet")
+         })
+
          }
         .onAppear(){
            initialize()
@@ -84,6 +111,7 @@ struct PetDetail: View {
         func check(){
             
             if isEditing{
+                clicked = true
                 print("Pet NAme\(pet.name)")
                       print("Name\(name)")
 
@@ -105,9 +133,7 @@ struct PetDetail: View {
             } else if !isEditing{
                 print("Pet NAme\(pet.name)")
                       print("Name\(name)")
-                if pet.name != name{
-                    message =   "Changes saved"
-                }
+                
                 if name != ""{
                     
                     authViewModel.updateData(updatePet: pet, name: name, age: age, weight: weight, notes: notes, image: image)

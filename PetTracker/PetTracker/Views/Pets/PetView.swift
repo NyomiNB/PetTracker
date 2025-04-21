@@ -47,7 +47,7 @@ struct PetView: View {
                             NavigationLink(destination: PetDetail(pet:pet)){
                                 Image(pet.image)
                                     .resizable()
-                                //                                    .aspectRatio(contentMode: .fill)
+                                // .aspectRatio(contentMode: .fill)
                                     .clipShape(.circle)
                                     .overlay(Circle().stroke(Color.green))
                                     .containerRelativeFrame(.horizontal, count: verticalSizeClass == .regular ? 1 : 4, spacing: 16)
@@ -92,11 +92,12 @@ struct PetView: View {
 @ViewBuilder
 func OverlayView(_ pet: Pet) -> some View{
     //HStack(alignment: .bottom, spacing: 30, content: {
-        Text(pet.name)
-        .font(.title2)
-        .bold()
+              Text(pet.name)
+                .font(.title2)
+                .bold()
+    }
     //   .padding([.leading, .bottom], 2)
-}
+
    
             
 //struct PetRow: View{
