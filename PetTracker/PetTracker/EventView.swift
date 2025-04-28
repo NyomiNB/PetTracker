@@ -14,12 +14,19 @@
 //
 //TODO: Show upcoming reminders
 //TODO:
- 
+ //PsuedoCode
+//Navigation View displaying list of events
+//NavLink takes user to event page
+//Page has NavTitle w name of event
+//Form for user to input notes
+//User selects pet it's applicable to
+//Option to Select All
+//Option to input date
 
 import SwiftUI
 import CoreData
 
-struct HomeView: View {
+struct EventView: View {
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
     init(){
@@ -34,18 +41,12 @@ struct HomeView: View {
 
         NavigationView{
             VStack{
-                HStack{
-                    Text("My Reminders")
-                        .font(.largeTitle)
-                        .bold()
-                    Image(systemName: "pawprint.fill")
-                }
-                List(authViewModel.reminders){reminder in
-                    NavigationLink(destination: ReminderDetail(reminder:reminder)){
-                        ReminderRow(reminder: reminder)
+                  List(authViewModel.deeds){deed in
+                    NavigationLink(destination: BehaviorDetail(deed:deed)){
+                        BehaviorRow(deed: deed)
                             .swipeActions{
                                 Button ("Delete"){
-                                    authViewModel.removeReminder(removeReminder: reminder)
+                                    authViewModel.removeDeed(removeDeed: deed)
                                 }
                                 .tint(.red)
                             }
@@ -55,11 +56,12 @@ struct HomeView: View {
             .onAppear(){
                 self.authViewModel.getData()
             }
+            .navigationTitle("My Pets' Behaviors")
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(trailing: Button(action: {
-                print("add reminder")
+                print("add deed")
             }, label:{
-                NavigationLink(destination: NewReminderView()){
+                NavigationLink(destination: NewBehaviorView()){
                     Image(systemName: "plus")
                 }
             }
@@ -69,13 +71,13 @@ struct HomeView: View {
         }
     }
     
-    struct ReminderRow: View{
-        let reminder: Reminder
+    struct BehaviorRow: View{
+        let deed: Deed
         var body: some View {
             
             HStack{
-                Text(reminder.name)
-                Text(reminder.date)
+                Text(deed.name)
+                Text(deed.date)
             }
         }
     }

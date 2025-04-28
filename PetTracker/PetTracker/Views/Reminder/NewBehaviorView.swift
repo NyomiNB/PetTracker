@@ -1,3 +1,11 @@
+//
+//  NewReminderView 2.swift
+//  PetTracker
+//
+//  Created by Nyomi Bell on 4/25/25.
+//
+
+
 //  NewPetView 2.swift
 //  PetTracker
 //
@@ -10,7 +18,7 @@
 
 import SwiftUI
 
-struct NewReminderView: View {
+struct NewDeedView: View {
     var measurements: CGFloat = 130
 
     @Environment(\.dismiss) private var dismiss
@@ -18,7 +26,10 @@ struct NewReminderView: View {
     //    @State private var newPet = ""
     @State var name = ""
     @State var notes = ""
+    @State var pet = ""
     @State var date = ""
+    @State var time = ""
+
     @State var chosenDate = Date()
     let dateFormatter = DateFormatter()
 
@@ -34,8 +45,8 @@ struct NewReminderView: View {
  
             NavigationView{
                 Form{
-                    Section(header: Text("New Reminder")){
-                        TextField("Reminder", text: $name)
+                    Section(header: Text("Log Behavior")){
+                        TextField("Behavior", text: $name)//textField
                         TextField("Notes", text: $notes)
                         DatePicker(
                             "Date",
@@ -51,12 +62,11 @@ struct NewReminderView: View {
                 .navigationBarItems(trailing: Button(action: {
                     dateFormatter.dateStyle = .medium
                     print("sucesss!!!")
-                    print("Reminder data \(authViewModel.getData())")
-                    print("Reminders \(authViewModel.reminders)")
-                    authViewModel.addReminder(name: name, date: dateFormatter.string(from: chosenDate), time: "5:45PM", priority: "high", notes: notes)
+                    print("Behvavior Data \(authViewModel.getData())")
+                    print("Behaviors \(authViewModel.deeds)")
+                    authViewModel.addDeed(name: name, pet: pet, date: date, time: time, notes: notes)
                     authViewModel.getData()
-                    dismiss()
-
+                    dismiss() 
                 }, label:{
                     Text("Save")
                 }))
