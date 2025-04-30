@@ -11,7 +11,9 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 import FirebaseCore
- 
+import FirebaseStorage
+import SwiftUICore
+
 protocol AuthenticationFormProtocol{
     var valid: Bool {get}
 }
@@ -22,6 +24,9 @@ class AuthViewModel: ObservableObject{
     @Published var pets = [Pet]()
     @Published var reminders = [Reminder]()
     @Published var deeds = [Deed]()
+    @Published var profilePhoto = String()
+    @Published var images = ["catPlaceholder", "dogPlaceholder", "fishPlaceholder"]
+
     init(){
          self.userSession = Auth.auth().currentUser
         Task {
@@ -45,6 +50,7 @@ class AuthViewModel: ObservableObject{
     func createUser(withEmail email: String, password: String, fullname: String) async throws{
         print("createAccount")
         do{
+            
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
             let user = User(id: result.user.uid, fullName: fullname, email: email)
@@ -68,17 +74,30 @@ class AuthViewModel: ObservableObject{
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
     }
-    func updateData(updatePet: Pet, name: String, age: Int, weight: Double, notes: String, image:String) {
+    func updateData(updatePet: Pet, name: String, birthdate: String, age: Int, weight: Double, notes: String, medications: String, healthConditions: String, image:String) {
         //reference to database
         let db = Firestore.firestore()
         
         //get data to update
-        db.collection("Pets").document(updatePet.id).setData(["name": name, "age":age, "weight":weight, "notes": notes, "image": image], merge: true){error in
+        db.collection("Pets").document(updatePet.id).setData(["name": name, "birthdate":birthdate, "age":age, "weight": weight, "notes": notes, "medications": medications, "healthConditions": healthConditions, "image": image], merge: true){error in
             if error == nil {
                 self.getData()
             }
         }
     }
+    
+    func updateProfile(updateProfile: User, profileURL: String) {
+        //reference to database
+        let db = Firestore.firestore()
+        
+        //get data to update
+        db.collection("user").document(updateProfile.id).setData(["profileURL": profileURL], merge: true){error in
+            if error == nil {
+                self.getData()
+            }
+        }
+    }
+
     //MARK: Update eed
     //    func addDeed(name: String, date: String, time: String, notes: String){
 
@@ -264,8 +283,8 @@ class AuthViewModel: ObservableObject{
                         self.pets = snapshot.documents.map{ d in
                             //create item
                             return Pet(id: d.documentID,
-                                       name: d["name"] as? String ?? "",  age: d["age"] as? Int ?? 0,  weight: d["weight"] as? Double ?? 0.0,
-                                       notes: d["notes"] as? String ?? "", image: d["image"] as? String ?? "")
+                                       name: d["name"] as? String ?? "",  birthdate: d["birthdate"] as? String ?? "", age: d["age"] as? Int ?? 0, weight: d["weight"] as? Double ?? 0.0,
+                                       notes: d["notes"] as? String ?? "", medications: d["medications"] as? String ?? "", healthConditions: d["healthConditions"] as? String ?? "", image: d["image"] as? String ?? "")
                         }
                     }
                 }
@@ -278,16 +297,17 @@ class AuthViewModel: ObservableObject{
 
                 }
             }
-      }
+        
+       }
                      
    
     //MARK: Add Pet
-    func addPet(name: String, age: Int, weight: Double, notes: String){
+    func addPet(name: String, birthdate: String, age: Int, weight: Double, medications: String, healthConditions: String, notes: String){
         //data ref
         
         //doc collection
         let db = Firestore.firestore()
-        db.collection("Pets").addDocument(data: ["name": name, "age": age, "weight": weight, "notes": notes, "image": "catPlaceholder", "ownerID": currentUser?.id]){ error in
+        db.collection("Pets").addDocument(data: ["name": name, "birthdate": birthdate, "age": age, "weight": weight, "medications": medications, "healthConditions": healthConditions, "notes": notes, "image": "catPlaceholder", "ownerID": currentUser?.id]){ error in
             //check for error
             if error == nil{
                 //no errors
@@ -300,9 +320,12 @@ class AuthViewModel: ObservableObject{
             
         }
     }
+    //MARK: Save profile photo
+ 
     //MARK: Add Reminder
     func addReminder(name: String, date: String, time: String, priority: String, notes: String){
         //data ref
+        
         
         //doc collection
         let db = Firestore.firestore()

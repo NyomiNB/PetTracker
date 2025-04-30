@@ -3,7 +3,7 @@
 //  PetTracker
 //
 //  Created by Nyomi Bell on 2/16/25.
-// 
+//
  import SwiftUI
 
 struct ContentView: View {
@@ -16,16 +16,15 @@ struct ContentView: View {
             }     else if viewModel.userSession != nil{
                 
                 TabView(selection: $selectedTab){
-                    HomeView()
+                    ReminderView()
                         .tabItem{
                             
                             Image(systemName: "house")
                             Text("Home")
                         }
-                    
-                        .tag(0)
-//                    Text("Home").tabItem { Text("Home")
-//                        Image(systemName: "house")}.tag(1)
+                         .tag(0)
+                    //                    Text("Home").tabItem { Text("Home")
+                    //                        Image(systemName: "house")}.tag(1)
                     
                     PetView()
                         .tabItem{
@@ -33,7 +32,7 @@ struct ContentView: View {
                             Text("My Pets")
                         }
                         .tag(1)
-
+                    
                     AccountView()
                         .tabItem{
                             Image(systemName: "person.crop.circle.fill")
@@ -41,8 +40,18 @@ struct ContentView: View {
                             
                         }
                         .tag(2)
+//                        .toolbarBackgroundVisibility(true, for: ToolbarPlacement...)
 
-                    
+                    EventView()
+                        .tabItem{
+                            Image(systemName: "plus")
+                            Text("Behaviors")
+                            
+                        }
+                        .tag(3)
+                }
+                .onAppear(){
+                    UITabBar.appearance().backgroundColor = .white
                 }
             }
         }

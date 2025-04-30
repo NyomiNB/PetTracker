@@ -21,12 +21,9 @@ struct LoginView: View {
     var body: some View {
           NavigationStack {
  
-            ZStack{
-                Circle().fill(.blue.opacity(0.1))
-                Circle().fill(.blue.opacity(0.1)).frame(width: measurements, height: measurements).position(x: 60, y: 140)
-                Circle().fill(.blue.opacity(0.1)).frame(width: measurements, height: measurements).position(x: 340, y: 140)
-                Circle().fill(.blue.opacity(0.1)).frame(width: measurements, height: measurements).position(x: 210, y: 100)//middle
-// x- 0 left
+                 ZStack{
+                     Image("catPicture").opacity(0.9)
+ // x- 0 left
 //y- 0 up
                 VStack{
                     Text("Welcome")
@@ -38,38 +35,57 @@ struct LoginView: View {
                     
                     Text("Enter your email and password")
                         .font(.caption)
-                        .opacity(0.8)
+                        .opacity(1.00)
                         .padding(.bottom)
                     
-                    InputView(text: $emailObj.usedEmail, title: "Email Address", placeholder:
-                                "name@example.com")
+//                    Text("Email Address")
+//                        .bold()
+//                        .font(.title3)
+                     TextField("", text: $emailObj.usedEmail, prompt: Text("Email Address"))
                     .padding()
                     .frame(width: 300, height: 50)
-                    .background(.blue.opacity(0.1))
+                    .background(.white.opacity(1.0))
                     .cornerRadius(20.0)
                     
-                    InputView(text: $passwordObj.usedPassword, title: "Password", placeholder:
-                                "Enter Your Password", isSecureField: true)
+//                    Text("Password")
+//                        .bold()
+//                        .font(.title3)
+                   
+                     SecureField("", text: $passwordObj.usedPassword, prompt: Text("Password"))
                     .padding()
                     .frame(width: 300, height: 50)
-                    .background(.blue.opacity(0.1))
+                    .background(.white.opacity(1.0))
                     .cornerRadius(20.0)
-                    
-                    Button{
-                        
+
+                                    Button{
                         Task{
                             try await viewModel.signIn(withEmail: emailObj.usedEmail, password: passwordObj.usedPassword)
                         }
                     } label: {
-                        Text("Sign in")
-                        Image(systemName: "pawprint.fill")
-                        
+                        HStack{
+                            Text("Sign in")
+                            Image(systemName: "pawprint.fill")
+ 
+                        }
+                        .padding()
+                        .padding()
+                        .frame(width: 150, height: 50)
+                        .background(.white.opacity(1.0))
+                        .cornerRadius(20.0)
+
                     }
                     //            .disabled(!valid)
                     //            .opacity(valid ? 1.0 : 0.5)
                     NavigationLink(destination: RegisterView()) {
-                        Text("Sign Up")
-                        Image(systemName: "pawprint")
+                        HStack{
+                            Text("Don't have an account? Sign Up")
+                            Image(systemName: "pawprint")
+                        }
+                            .padding()
+                            .padding()
+                            .frame(width: 500, height: 50)
+                            .background(.white.opacity(0.2))
+                            .cornerRadius(20.0)
 
                     }
                 }
@@ -80,7 +96,7 @@ struct LoginView: View {
 }
  //extension RegisterView: AuthenticationFormProtocol {
 //    var valid: Bool{
-//        return 
+//        return
 //        !email.isEmpty && email.contains("@") && !password.isEmpty && password.count
 class EmailObject: ObservableObject {
     @Published var usedEmail = "" {

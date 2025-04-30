@@ -10,13 +10,18 @@ import SwiftUI
 // Pet(id: "d", name: "String", notes: "note")
 
  
-struct Pet: Identifiable{
+struct Pet: Identifiable, Hashable{
     
 var id: String
 let name: String
-let age: Int
+let birthdate: String
+    let age: Int
+
 let weight: Double
 let notes: String
-let image: String   
+let medications: String
+    let healthConditions: String
+
+let image: String
   }
 let pets = [Pet]()

@@ -30,14 +30,13 @@ struct EventView: View {
     @ObservedObject var authViewModel = AuthViewModel()
     //    @State private var showPopup = false
     init(){
-        authViewModel.getData()
-    }
+     }
     
     //    @State private var activeTab: TabItem = .home
     var body: some View {
         
         // MARK: NavigationView
-       
+ 
 
         NavigationView{
             VStack{
@@ -53,6 +52,15 @@ struct EventView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+           .background(
+                Image("puppy")
+                    .resizable()
+
+                     .ignoresSafeArea()
+                   .scaledToFill()
+                    .blur(radius: 3)
+            )
             .onAppear(){
                 self.authViewModel.getData()
             }
@@ -69,6 +77,9 @@ struct EventView: View {
             .padding(.bottom, 4)
 
         }
+ 
+
+
     }
     
     struct BehaviorRow: View{
@@ -76,9 +87,10 @@ struct EventView: View {
         var body: some View {
             
             HStack{
-                Text(deed.name)
-                Text(deed.date)
-            }
+  Text(deed.name)
+                Text(deed.time)
+
+             }
         }
     }
 }
@@ -99,10 +111,10 @@ struct EventView: View {
 //                                 Text(tab.rawValue)
 //                                    .toolbarVisibility(.hidden, for: .toolbar)
 //                                    .tag(tab)
-//                            
+//
 //                                    .toolbar(.hidden, for: .toolbar)
 //                            }
-//                            
+//
 //                        }
 //                    }
 //            struct InteractiveToolBar: View{
@@ -110,7 +122,7 @@ struct EventView: View {
 //                var body: some View{
 //                    HStack(spacing: 0){
 //                        ForEach(TabItem.allCases, id: \.rawValue) { tab in
-//                            
+//
 //                        TabButton(tab)
 //                        }
 //                    }
@@ -123,7 +135,7 @@ struct EventView: View {
 //                            .symbolVariant(.fill)
 //                            .frame(width: isActive ? 50 : 25, height: isActive ? 50 : 25)
 //                            .frame(width: 25, height: 25, alignment: .bottom)
-//                        
+//
 //                    }
                     
             
@@ -135,7 +147,7 @@ struct EventView: View {
  
 
 #Preview {
-    HomeView()
+    EventView()
         //.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
 
@@ -143,7 +155,7 @@ struct EventView: View {
 //case home: "Home"
 //case pets: "Pets"
 //case settings: "Settings"
-//    
+//
 //    var symbolImage: String{
 //        switch self{
 //        case .home: "house"

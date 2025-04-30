@@ -18,7 +18,7 @@
 
 import SwiftUI
 
-struct NewDeedView: View {
+struct NewBehaviorView: View {
     var measurements: CGFloat = 130
 
     @Environment(\.dismiss) private var dismiss
@@ -64,9 +64,9 @@ struct NewDeedView: View {
                     print("sucesss!!!")
                     print("Behvavior Data \(authViewModel.getData())")
                     print("Behaviors \(authViewModel.deeds)")
-                    authViewModel.addDeed(name: name, pet: pet, date: date, time: time, notes: notes)
+                    authViewModel.addDeed(name: name, pet: pet, date: dateFormatter.string(from:chosenDate), time: time, notes: notes)
                     authViewModel.getData()
-                    dismiss() 
+                    dismiss()
                 }, label:{
                     Text("Save")
                 }))
@@ -83,5 +83,5 @@ struct NewDeedView: View {
     //}
 }
 #Preview {
-    NewReminderView()
+    NewBehaviorView()
 }
