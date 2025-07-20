@@ -8,4 +8,4 @@ Your pets' common behaviors, medical information, and reminders all in one place
 ## Future Iterations
 - Custom reminders and accompanying push notifications
 - Track weight changes and add graph to show said changes
-- Improve UI
+- Add more contrast in UI between views
