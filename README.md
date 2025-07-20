@@ -6,4 +6,6 @@ Your pets' common behaviors, medical information, and reminders all in one place
 - Users are able to add input using tab bar button, updating the list view
 
 ## Future Iterations
-- Prevent all users from accesing user input
+- Custom reminders and accompanying push notifications
+- Track weight changes and add graph to show said changes
+- Improve UI
