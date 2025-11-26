@@ -4,6 +4,7 @@ Your pets' common behaviors, medical information, and reminders all in one place
 
 ## Current Features
 - Users can create accounts using a unique email and password
+- All user data is saved into a databse (Firebase Firestore)
 <p align="center"> <img width="250" height="273" alt="image" src="https://github.com/user-attachments/assets/ab3d7f3f-654e-4366-a9f2-4de1df6dd2dd" /></p>
 
 - Users can edit their profile photo using the swiftUI photoPicker
